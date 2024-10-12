@@ -1,0 +1,17 @@
+
+  * {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  }
+  
+  html,
+  body {
+    background: rgb(85,0,0);
+    background: #070718;
+    color-scheme: dark light;
+    max-width: 100vw;
+    overflow-x: hidden;
+    font-family: 'Montserrat', 'Poppins';
+  }
+
