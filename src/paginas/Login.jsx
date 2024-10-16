@@ -1,50 +1,92 @@
 import './Login.css';
-import { Link } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom'; 
 import React, { useState } from 'react';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-function Login() {
-    const [isChecked, setIsChecked] = useState(false);
 
-    const handleToggle = () => {
-        setIsChecked(prev => !prev);
+export const sendLoginForm = async (credentials) => {
+    const response = await fetch("http://localhost:3000/api/login", {
+        method: "POST",
+        mode: "cors",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(credentials)
+    });
+
+    if (response.status === 401) return 401;
+
+    return response.json();
+};
+
+const Login = () => {
+    const [email, setEmail] = useState('');
+    const [contrasena, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        
+    
+
+        // Enviar datos al backend
+        const credentials = { email, contrasena };
+        const response = await sendLoginForm(credentials);
+
+        if (response === 401) {
+            alert("Credenciales incorrectas");
+        } else {
+            // Manejo de la respuesta del servidor (navegar a una nueva página, guardar token, etc.)
+            console.log("Login exitoso", response);
+            navigate("/tienda"); // Cambiar a la ruta correspondiente después del login
+        }
     };
+
+    
+
     return (
         <>
-
-        <div className="login" Login>
-        <h1>Iniciar Sesion</h1>    
-        </div>
-        <div className="create-account">
-            <h2 >Tu primera vez? </h2>
-            <button>Crea tu cuenta</button>
-        </div>
-        
-        <form className="datos">
-            <div className="sub-title">Mail
-                <label htmlFor="mail"></label>
-                <input type="text" id="email" className="input" placeholder="xxxxxx@gmail.com" />
+            <div className="login">
+                <h1>Iniciar Sesión</h1>    
             </div>
-
-            <div className="sub-title">Contraseña (entre 10 y 15 caracteres)
-                <label htmlFor="contraseña"></label>
-                <input type="password" id="contraseña" className="input" placeholder="xxxxxxxxxxxx" />
+            <div className="create-account">
+                <h2>¿Tu primera vez?</h2>
+                <button><Link to="/register">Crea tu cuenta</Link></button>
             </div>
+            
+            <form className="datos" onSubmit={handleSubmit}>
+                <div className="sub-title">
+                    Mail
+                    <label htmlFor="email"></label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        className="input" 
+                        placeholder="xxxxxx@gmail.com" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)} 
+                    />
+                </div>
 
-            <div className="checkbox-container" onClick={handleToggle} style={{ cursor: 'pointer' }}>
-                {isChecked ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
-                <span>Términos y Condiciones</span>          
-            </div>
-            <Link to="/tienda">
-            <button className="login-btn">Iniciar sesion</button>
-            </Link>
-        </form>
-        
-      
+                <div className="sub-title">
+                    Contraseña (entre 10 y 15 caracteres)
+                    <label htmlFor="contrasena"></label>
+                    <input 
+                        type="password" 
+                        id="contrasena" 
+                        className="input" 
+                        placeholder="xxxxxxxxxxxx" 
+                        value={contrasena} 
+                        onChange={(e) => setPassword(e.target.value)} 
+                    />
+                </div>
 
+                <div className="olv-empre">
+                    <button className='boton-olvide'>Olvide contraseña</button>
+                    <button className='boton-registrar-empresa'>Registrar empresa</button>           
+                </div>
+               
+                <button type="submit" className="login-btn">Iniciar sesión</button>
+            </form>
         </>
     );
-}
+};
 
 export default Login;

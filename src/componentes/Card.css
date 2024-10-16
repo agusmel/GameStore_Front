@@ -1,7 +1,10 @@
 .card-box {
     background-color: rgb(12, 11, 11);
     padding: 5px;
+    text-decoration: none
   }
+
+
   .card-box-grande {
     background-color: transparent;
     padding: 15px;
@@ -9,6 +12,7 @@
     right: 800px;
     justify-content: center;  
     margin: auto;
+    text-decoration: none
 
   }
 
@@ -27,6 +31,7 @@
     font-size: 1rem;
     color: #fff;
     margin-bottom: 4px;
+    
   }
   .game-title-grande {
     font-size: 1rem;
@@ -49,6 +54,7 @@
   }
 
   .game-box-bottom {
+    
     display: flex;
     justify-content: space-between;
     

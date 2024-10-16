@@ -49,7 +49,7 @@ function Catalogo() {
         </div>
         <div className='box-juegos'>
           {juegos.map((juegos, index) => (
-            <Card key={index} imagen={juegos.imagen} nombre={juegos.nombre} precio={juegos.precio} />
+            <Card key={index} imagen={juegos.imagenChica} nombre={juegos.nombre} precio={juegos.precio} />
           ))}
         </div>
       </div>

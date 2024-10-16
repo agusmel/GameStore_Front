@@ -1,0 +1,79 @@
+/* Estilos para la página de detalle de juego */
+.game-page-container {
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #0e141b8e;
+    
+}
+
+.titulo h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #0E141B;
+}
+
+/* Bloque principal que contiene la imagen y la información */
+.bloque-1 {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+/* Imagen del juego */
+.imagen-juego {
+    max-width: 500px;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Información del juego */
+.informacion {
+    flex-direction: column;
+    background-color: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    display: flex;
+}
+
+/* Estilos para el desarrollador */
+.informacion h2 {
+    justify-content: center;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.developer-logo {
+    max-width: 200px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Texto descriptivo */
+.informacion p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+
+}
+.precio{
+    width: fit-content;
+    margin-top: auto;
+}
+
+/* Botón para agregar al carrito */
+.add-to-cart-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    top: auto;
+    position: relative;
+    float: right;
+   
+}
+
+

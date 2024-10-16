@@ -2,14 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
-import BarraNavegacion from './componentes/barraNavegacion';
-import Tienda from './componentes/barraNavegacion';
 import Categorias from './componentes/barraNavegacion';
 import Carrito from './componentes/barraNavegacion';
 import Biblioteca from './componentes/barraNavegacion';
 import Deseados from './componentes/barraNavegacion';
-import Agus from './componentes/barraNavegacion';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
+import CrearCuenta from './paginas/CrearCuenta.jsx';
+import Catalogo from './paginas/Catalogo.jsx';
+import PerfilUsuario from './paginas/perfil.jsx';
+import GamePage from './paginas/GamePage.jsx';
 
 const routes=[
   {
@@ -18,7 +19,11 @@ const routes=[
   },
   {
     path: "/tienda",
-    element: <Tienda/>
+    element: <Catalogo/>
+  },
+  {
+    path: "/game/:nombre", // Ruta para la página de detalles del juego
+    element: <GamePage/>
   },
   {
     path: "/carrito",
@@ -38,7 +43,11 @@ const routes=[
   },
   {
     path: "/account",
-    element: <Agus />
+    element: <PerfilUsuario />
+  },
+  {
+    path: "/register",
+    element: <CrearCuenta/>
   },
 
 ]

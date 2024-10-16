@@ -69,8 +69,8 @@ body {
 .campo-nacimiento {
     display:flex;
     align-items: center;
-    gap: 10px; /* Espacio entre los select */
-    font-family: Arial, sans-serif; /* Fuente similar a la del ejemplo */
+    gap: 10px; 
+    font-family: Arial, sans-serif; 
     background-color: #2c2630;
     
 }
@@ -86,12 +86,12 @@ body {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #1e1e1e; /* Fondo oscuro */
-    color: #ccc; /* Texto claro */
+    background-color: #1e1e1e; 
+    color: #ccc; 
     font-size: 16px;
-    appearance: none; /* Ocultar flecha por defecto del select */
+    appearance: none; 
     text-align: center;
-    width: 60px; /* Ancho uniforme */
+    width: 60px; 
    
 }
 

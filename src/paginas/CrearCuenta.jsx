@@ -10,7 +10,50 @@ function CrearCuenta() {
     const handleToggle = () => {
         setIsChecked(prev => !prev);
     };
+    const [errorMessage, setErrorMessage] = useState('');
 
+    // Llenar opciones de día
+    const generarDias = () => {
+       const dias = [<option key="" value="">- Día -</option>];
+       for (let i = 1; i <= 31; i++) {
+           dias.push(<option key={i} value={i}>{i}</option>);
+       }
+       return dias;
+   };
+
+   // Llenar opciones de mes
+   const generarMeses = () => {
+       const meses =  [<option key="" value="">- Mes -</option>];
+       for (let i = 1; i <= 12; i++) {
+           meses.push(<option key={i} value={i}>{i}</option>);
+       }
+       return meses;
+   };
+
+   // Llenar opciones de año 
+   const generarAnios = () => {
+       const anios =  [<option key="" value="">- Año -</option>];
+       const currentYear = new Date().getFullYear();
+       for (let i = 1900; i <= currentYear; i++) {
+           anios.push(<option key={i} value={i}>{i}</option>);
+       }
+       return anios;
+   };
+       // validar la fecha
+       const validarFecha = () => {
+           const dia = parseInt(document.getElementById('dia').value);
+           const mes = parseInt(document.getElementById('mes').value) - 1; // Enero es 0 en JavaScript
+           const anio = parseInt(document.getElementById('anio').value);
+   
+           const fecha = new Date(anio, mes, dia);
+           const esFechaValida = (fecha.getDate() === dia && fecha.getMonth() === mes && fecha.getFullYear() === anio);
+   
+           if (!esFechaValida) {
+               setErrorMessage('Fecha no válida');
+           } else {
+               setErrorMessage('');
+           }
+       };
 
     return (
         <>
@@ -41,10 +84,22 @@ function CrearCuenta() {
                 <input type="text" className="input" id="Mail" placeholder="xxxxxx@gmail.com" autocomplete="email" />
             </div>
 
-            <div className="sub-title">
-                <label htmlFor="Fecha-nacimiento">Fecha de nacimiento</label>
-                <input type="text" id="Fecha-nacimiento" className="input"/>
-            </div>
+            <div className="nacimiento">
+                <label htmlFor="nacimiento">Fecha de Nacimiento</label>
+                <div className="select-container">
+                    <select id="dia" onChange={validarFecha}>
+                        {generarDias()}
+                    </select>
+                    <select id="mes" onChange={validarFecha}>
+                        {generarMeses()}
+                    </select>
+                    <select id="anio" onChange={validarFecha}>
+                        {generarAnios()}
+                    </select>
+                </div>
+                {/* Mostrar mensaje de error si la fecha es inválida*/}
+                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+        </div>
             
             <div className="sub-title">
                 <label >Contraseña (entre 10 y 15 caracteres)</label>
@@ -53,7 +108,7 @@ function CrearCuenta() {
 
             <div className="checkbox-container" onClick={handleToggle} style={{ cursor: 'pointer' }}>
                 {isChecked ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
-                <span>Términos y Condiciones</span>          
+                <span>Aceptar Términos y Condiciones</span>          
             </div>
 
             <button className="create-btn" >Crear</button>
