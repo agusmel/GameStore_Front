@@ -204,11 +204,15 @@ width: 98%;
 
 .boton2{
     background-color: #FB0000; 
-    color: white; 
     border-radius: 5px; 
     padding: 10px 10px; 
     font-size: 16px; 
     position: relative;
     bottom: 0;
+}
+
+.boton2 a{
+    text-decoration: none;
+    color: white;
 }
 

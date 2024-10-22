@@ -19,27 +19,22 @@ export const sendLoginForm = async (credentials) => {
 const Login = () => {
     const [email, setEmail] = useState('');
     const [contrasena, setPassword] = useState('');
+    const [isChecked, setIsChecked] = useState(false); 
     const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
-    
 
-        // Enviar datos al backend
         const credentials = { email, contrasena };
         const response = await sendLoginForm(credentials);
 
         if (response === 401) {
             alert("Credenciales incorrectas");
         } else {
-            // Manejo de la respuesta del servidor (navegar a una nueva página, guardar token, etc.)
             console.log("Login exitoso", response);
-            navigate("/tienda"); // Cambiar a la ruta correspondiente después del login
+            navigate("/tienda"); 
         }
     };
-
-    
 
     return (
         <>
@@ -83,7 +78,7 @@ const Login = () => {
                     <button className='boton-registrar-empresa'>Registrar empresa</button>           
                 </div>
                
-                <button type="submit" className="login-btn">Iniciar sesión</button>
+                <button type="submit" className="login-btn"><Link to="/tienda">Iniciar sesión</Link></button>
             </form>
         </>
     );

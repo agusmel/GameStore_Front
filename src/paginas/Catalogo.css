@@ -10,6 +10,7 @@
     position: absolute;
     left: 0px;
     top: 45%;
+    cursor: pointer;
     
   }
   
@@ -17,6 +18,7 @@
     position: absolute;
     right: 0;
     top: 45%;
+    cursor: pointer;
   }
   
   .titulo-grande h2 {

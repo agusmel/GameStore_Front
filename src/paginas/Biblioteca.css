@@ -1,0 +1,182 @@
+.app {
+  color: white;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  overflow: hidden; 
+}
+
+.sidebar {
+  background-color: #0B0E19;
+  width: 260px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid black;
+  border-radius: 1px;
+  transition: width 0.3s ease; 
+}
+
+.search {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.games-list {
+  list-style: none;
+  padding: 0;
+}
+
+.game-item {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  transition: background-color 0.2s;
+}
+
+.game-item.selected {
+  background-color: #0088ff;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #0B0E19;
+  border: 3px solid black;
+  border-radius: 1px;
+}
+
+
+
+.game-detail {
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+img {
+  justify-content: center;
+}
+
+.game-banner {
+  display: flex;
+  width: 100%; 
+  max-width: 500px; 
+  height: auto;
+  border-radius: 10px;
+  margin: 0 auto; 
+  margin-bottom: 12px;
+}
+
+.game-info {
+  display: flex;
+  margin-top: auto;
+  background-color: #151822;
+  width: 100%;
+  height: 50px;
+  justify-content: center;
+}
+
+.install-btn {
+  background-color: #0088ff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+
+}
+
+.space-required {
+  font-size: 0.9em;
+}
+
+.review {
+  background-color: #0B0E19;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+
+.rating-options {
+  display: flex;
+  gap: 5px;
+  
+}
+
+.rating-btn {
+  background: none;
+  border: 1px solid #0088ff;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.review-text {
+  width: 100%;
+  height: 100px;
+  padding: 10px;
+  background-color: #1a1a2e;
+  border: 1px solid #0088ff;
+  border-radius: 5px;
+  color: white;
+  margin-top: 10px;
+}
+
+.review-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.submit-review {
+  background: none;
+  border: none;
+  color: #267D10;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.cancel-review {
+  background: none;
+  border: none;
+  color: #FB0000;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.rating-btn.selected {
+  background-color: #007BFF; 
+  color: white; 
+}
+
+
+  
+
+  
+
+ 
+

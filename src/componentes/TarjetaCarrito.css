@@ -1,0 +1,35 @@
+.game-card {
+  width: 100%;
+  background-color: #0E141B;
+  display: flex;
+  justify-content: space-between;
+  height: fit-content;
+  padding: 20px;
+  
+}
+
+.left-card-game {
+  display: flex;
+  gap: 50px;
+  align-items: center;
+}
+
+.right-card-game {
+  display: flex;
+  gap: 50px;
+  margin-right: 50px;
+  align-items: center;
+}
+
+
+img{
+    /* height: 20%; */
+    height: 100px;
+    width: auto;
+}
+
+.right-card-game button{
+  cursor: pointer;
+  background-color: transparent;
+  color: #FB0000;
+}

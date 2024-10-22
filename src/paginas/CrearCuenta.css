@@ -6,9 +6,11 @@
     font-size: 16px; 
     position: relative;
     bottom: 0;
-    margin-top: 10px; /* Espaciado superior */
-  
+    margin-top: 10px; 
+    cursor: pointer;
+    
 }
+
 
 .input{
     width: 350px;
@@ -51,6 +53,8 @@
     padding: 5px;
     text-align: center; 
     font-size: 13px;
+    cursor: pointer;
+
 }
 
 .checkbox-container{

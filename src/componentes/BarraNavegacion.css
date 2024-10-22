@@ -15,7 +15,8 @@
 .elemento-header {
   font-size: 20px;
   text-decoration: none;
-  
+  position: relative; /* Posicionamiento relativo para el submenu */
+
 
 }
 
@@ -63,7 +64,34 @@
 }
 
 .usuario-header a {
-  text-decoration: none;
   color: white;
+}
+
+
+
+.submenu {
+  position: absolute; /* Posicionamiento absoluto */
+  top: 100%; /* Coloca el menú debajo del elemento principal */
+  left: 0;
+  background-color: #444; /* Fondo del menú desplegable */
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
+  display: flex;
+  flex-direction: column;
+  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+}
+
+
+
+.submenu a {
+  padding: 10px 15px;
+  text-decoration: none; /* Sin subrayado */
+  display: block; /* Hacer que toda la área sea clickeable */
+  list-style-type: none; /* Elimina los círculos a la izquierda */
+
+}
+
+.submenu a:hover {
+  background-color: #555; /* Color de fondo al pasar el mouse */
 }
 

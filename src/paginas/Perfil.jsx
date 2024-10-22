@@ -39,10 +39,20 @@ const PerfilUsuario = () => {
             const anio = parseInt(document.getElementById('anio').value);
     
             const fecha = new Date(anio, mes, dia);
-            const esFechaValida = (fecha.getDate() === dia && fecha.getMonth() === mes && fecha.getFullYear() === anio);
-    
+            const fechaActual = new Date(); 
+
+             const esFechaValida = (fecha.getDate() === dia && fecha.getMonth() === mes && fecha.getFullYear() === anio);
+
+            if (isNaN(anio) || isNaN(mes) || isNaN(dia) || dia === 0 || mes === -1 || anio === 0) {
+                setErrorMessage('');
+                return;
+            }
             if (!esFechaValida) {
                 setErrorMessage('Fecha no válida');
+                return;
+            }
+            if (fecha > fechaActual) {
+                setErrorMessage('La fecha no puede ser mayor a la fecha actual');
             } else {
                 setErrorMessage('');
             }

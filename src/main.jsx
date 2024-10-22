@@ -3,14 +3,16 @@ import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 import Categorias from './componentes/barraNavegacion';
-import Carrito from './componentes/barraNavegacion';
-import Biblioteca from './componentes/barraNavegacion';
-import Deseados from './componentes/barraNavegacion';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import CrearCuenta from './paginas/CrearCuenta.jsx';
 import Catalogo from './paginas/Catalogo.jsx';
 import PerfilUsuario from './paginas/perfil.jsx';
 import GamePage from './paginas/GamePage.jsx';
+import { Login } from '@mui/icons-material';
+import Biblioteca from './paginas/biblioteca.jsx';
+import Carrito from './paginas/Carrito.jsx';
+import Pagos from './paginas/Pagos.jsx';
+import Deseados from './paginas/Deseados.jsx';
 
 const routes=[
   {
@@ -49,7 +51,11 @@ const routes=[
     path: "/register",
     element: <CrearCuenta/>
   },
-
+  {
+    path: "/pagos",
+    element: <Pagos/>
+  },
+  
 ]
 
 const router= createBrowserRouter(routes)

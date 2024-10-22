@@ -6,7 +6,9 @@ import CrearCuenta from './paginas/CrearCuenta.jsx';
 import PerfilUsuario from './paginas/perfil.jsx';
 import Pagos from './paginas/Pagos.jsx';
 import GamePage from './paginas/GamePage.jsx';
-
+import Biblioteca from './paginas/biblioteca.jsx';
+import Carrito from './paginas/Carrito.jsx';
+import Deseados from './paginas/Deseados.jsx';
 function App() {
  
 

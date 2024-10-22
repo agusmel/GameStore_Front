@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import BarraNavegacion from '../componentes/barraNavegacion.jsx';
 
 
-function pagos() {
+function Pagos() {
     const [errorMessage, setErrorMessage] = useState('');
 
         // Llenar opciones de mes
@@ -30,7 +30,7 @@ function pagos() {
             const anio = parseInt(document.getElementById('anio').value);
             const fechaActual = new Date();
             const anioActual = fechaActual.getFullYear();
-            const mesActual = fechaActual.getMonth() +1; // Obtener el mes actual (1-12)
+            const mesActual = fechaActual.getMonth() +1; 
         
             // Comprobar que el año y el mes son válidos 
             if (isNaN(anio) || isNaN(mes) || mes === 0 || anio === 0) {
@@ -63,7 +63,7 @@ function pagos() {
                 <div className="tarjeta-vencimiento">
                     <div className='num-tarjeta'>
                         <label htmlFor="numero de tarjeta" >Numero de tarjeta</label>
-                        <input type="text" id="numero de tarjeta"  maxlength="8"/>
+                        <input type="text" id="numero de tarjeta"  maxlength="16"/>
                     </div>
 
                     <div className="campo-vencimietno">
@@ -128,7 +128,7 @@ function pagos() {
 
                 <div className="botones">
                 <button className="boton1">Pagar</button>
-                <button className="boton2">Cancelar</button>
+                <button className="boton2"><Link to="/tienda">Cancelar</Link></button>
             </div>
             </form>
        
@@ -137,6 +137,6 @@ function pagos() {
     
 }
 
-export default pagos;
+export default Pagos;
 
 

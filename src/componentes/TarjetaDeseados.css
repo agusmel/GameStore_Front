@@ -1,0 +1,41 @@
+.game-card {
+    width: 100%;
+    background-color: #0E141B;
+    display: flex;
+    justify-content: space-between;
+    height: fit-content;
+    padding: 20px;
+    position: relative; 
+
+  }
+  
+  .left-card-game {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+  }
+  
+  .derecha-card-game {
+    display: flex;
+    gap: 50px;
+    margin-right: 50px;
+    align-items: center;
+  }
+  
+  
+  img{
+      /* height: 20%; */
+      height: 100px;
+      width: auto;
+  }
+  
+ 
+  .derecha-card-game button {
+    cursor: pointer;
+    background-color: transparent;
+    color: white;
+    text-decoration: underline;
+    position: absolute; 
+    bottom: 0; 
+    font-size: 1em;
+}

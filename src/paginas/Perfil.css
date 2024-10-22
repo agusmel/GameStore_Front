@@ -92,6 +92,7 @@ body {
     appearance: none; 
     text-align: center;
     width: 60px; 
+    cursor: pointer;
    
 }
 

@@ -1,16 +1,19 @@
 import './CrearCuenta.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; 
 import React, { useState } from 'react';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
 function CrearCuenta() {
     const [isChecked, setIsChecked] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate();
 
     const handleToggle = () => {
         setIsChecked(prev => !prev);
     };
-    const [errorMessage, setErrorMessage] = useState('');
+    
 
     // Llenar opciones de día
     const generarDias = () => {
@@ -39,21 +42,82 @@ function CrearCuenta() {
        }
        return anios;
    };
-       // validar la fecha
-       const validarFecha = () => {
-           const dia = parseInt(document.getElementById('dia').value);
-           const mes = parseInt(document.getElementById('mes').value) - 1; // Enero es 0 en JavaScript
-           const anio = parseInt(document.getElementById('anio').value);
-   
-           const fecha = new Date(anio, mes, dia);
-           const esFechaValida = (fecha.getDate() === dia && fecha.getMonth() === mes && fecha.getFullYear() === anio);
-   
-           if (!esFechaValida) {
-               setErrorMessage('Fecha no válida');
-           } else {
-               setErrorMessage('');
-           }
-       };
+   // validar la fecha
+const validarFecha = () => {
+    const dia = parseInt(document.getElementById('dia').value);
+    const mes = parseInt(document.getElementById('mes').value) - 1; 
+    const anio = parseInt(document.getElementById('anio').value);
+
+    const fecha = new Date(anio, mes, dia);
+    const fechaActual = new Date(); 
+
+    const esFechaValida = (fecha.getDate() === dia && fecha.getMonth() === mes && fecha.getFullYear() === anio);
+
+    if (isNaN(anio) || isNaN(mes) || isNaN(dia) || dia === 0 || mes === -1 || anio === 0) {
+        setErrorMessage('');
+        return;
+    }
+    if (!esFechaValida) {
+        setErrorMessage('Fecha no válida');
+        return;
+    }
+    if (fecha > fechaActual) {
+        setErrorMessage('La fecha no puede ser mayor a la fecha actual');
+    } else {
+        setErrorMessage('');
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const nombre = document.getElementById('Nombre').value;
+        const apellido = document.getElementById('Apellido').value;
+        const nombre_usuario = document.getElementById('Nombre-usuario').value;
+        const email = document.getElementById('Mail').value;
+        const dia = document.getElementById('dia').value;
+        const mes = document.getElementById('mes').value;
+        const anio = document.getElementById('anio').value;
+        const contrasena = document.getElementById('Contraseña').value;
+
+        const fecha_nacimiento = `${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`; // Formato YYYY-MM-DD
+
+        if (!nombre || !apellido || !nombre_usuario || !email || !dia || !mes || !anio || !contrasena || errorMessage) {
+            setErrorMessage('Por favor, complete todos los campos correctamente.');
+            return;
+        }
+
+        const userData = {
+            nombre,
+            apellido,
+            nombre_usuario,
+            email,
+            fecha_nacimiento,
+            contrasena
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData),
+            });
+            const result = await response.json();
+
+            if (result.exito) {
+                navigate('/tienda');
+                setSuccessMessage('Usuario creado exitosamente');
+                // Opcional: Redirigir o limpiar el formulario
+            } else {
+                setErrorMessage(result.mensaje || 'Error al crear el usuario');
+            }
+
+        } catch (error) {
+            console.error('Error en la solicitud:', error);
+            setErrorMessage('Error en la solicitud');
+        }
+    };
+};
 
     return (
         <>
@@ -81,13 +145,15 @@ function CrearCuenta() {
 
             <div className="sub-title">
                 <label htmlFor="Mail">Mail</label>
-                <input type="text" className="input" id="Mail" placeholder="xxxxxx@gmail.com" autocomplete="email" />
+                <input type="email" className="input" id="Mail" placeholder="xxxxxx@gmail.com" autocomplete="email" />
             </div>
 
             <div className="nacimiento">
+
                 <label htmlFor="nacimiento">Fecha de Nacimiento</label>
+
                 <div className="select-container">
-                    <select id="dia" onChange={validarFecha}>
+                    <select id="dia" onChange={validarFecha} >
                         {generarDias()}
                     </select>
                     <select id="mes" onChange={validarFecha}>
@@ -111,7 +177,7 @@ function CrearCuenta() {
                 <span>Aceptar Términos y Condiciones</span>          
             </div>
 
-            <button className="create-btn" >Crear</button>
+            <button className="create-btn" ><Link to="/tienda">Crear</Link></button>
 
         </form>
         </>
