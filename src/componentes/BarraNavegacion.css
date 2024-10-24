@@ -70,26 +70,23 @@
 
 
 .submenu {
-  position: absolute; /* Posicionamiento absoluto */
-  top: 100%; /* Coloca el menú debajo del elemento principal */
-  left: 0;
-  background-color: #444; /* Fondo del menú desplegable */
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Sombra para darle profundidad */
+  position: absolute; 
+ 
   display: flex;
-  flex-direction: column;
-  z-index: 1000; /* Asegúrate de que esté por encima de otros elementos */
+  background-color: #444; 
+  border-radius: 5px;
+  list-style-type: none; 
+  gap: 10px; 
+  width: 450px;
+  flex-wrap: wrap;
+  z-index: 1;
 }
-
-
-
 .submenu a {
   padding: 10px 15px;
-  text-decoration: none; /* Sin subrayado */
-  display: block; /* Hacer que toda la área sea clickeable */
-  list-style-type: none; /* Elimina los círculos a la izquierda */
-
+  display: block;
+  text-decoration: underline;
 }
+
 
 .submenu a:hover {
   background-color: #555; /* Color de fondo al pasar el mouse */

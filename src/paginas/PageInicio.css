@@ -1,0 +1,101 @@
+.encabezado {
+    display: flex;
+    justify-content: center; 
+    background-color:transparent;
+    font-size: 50px;
+    height: 100px; 
+    z-index: 10;
+    position: relative;
+}
+
+.subtitulo{
+    padding: 3%;
+    justify-content: center;
+    display: flex;
+    background-color: 070718;
+    font-size: 20px;
+    z-index: 10;
+    position: relative;
+
+}
+
+.btns{
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    
+}
+
+.btn{
+    background-color: #007bff; 
+    border-radius: 5px; 
+    padding: 10px 10px; 
+    font-size: 20px; 
+    position: relative;
+    bottom: 0;
+    margin-top: 15px; 
+    cursor: pointer;
+}
+
+.btn a{
+    text-decoration: none;
+    color: white;
+}
+
+
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(30, 40, 80, 0.8); /* Color de los círculos */
+    animation: float 6s ease-in-out infinite; /* Animación de flotación */
+
+}
+
+.circle1 {
+    width: 170px;
+    height: 180px;
+    top: 50px;
+    left: 50px;
+}
+
+.circle2 {
+    width: 200px;
+    height: 200px;
+    top: 300px;
+    right: 400px;
+}
+
+.circle3 {
+    width: 150px;
+    height: 150px;
+    bottom: 100px;
+    left: 10px;
+}
+
+.circle4 {
+    width: 250px;
+    height: 250px;
+    bottom: 50px;
+    right: 150px;
+}
+
+.circle5 {
+    width: 180px;
+    height: 180px;
+    top: 5%;
+    right: 4%;
+}
+
+.circle6 {
+    width: 250px;
+    height: 250px;
+    bottom: 30%;
+    left: 20%;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}

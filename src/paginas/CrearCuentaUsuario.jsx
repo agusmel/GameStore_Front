@@ -1,10 +1,10 @@
-import './CrearCuenta.css';
+import './CrearCuentaUsuario.css';
 import { Link, useNavigate } from 'react-router-dom'; 
 import React, { useState } from 'react';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-function CrearCuenta() {
+function CrearCuentaUsuario() {
     const [isChecked, setIsChecked] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -121,7 +121,14 @@ const validarFecha = () => {
 
     return (
         <>
-        
+        <div className="fondo">
+                <div class="circle circle1"></div>
+                <div class="circle circle2"></div>
+                <div class="circle circle3"></div>
+                <div class="circle circle4"></div>
+                <div class="circle circle5"></div>
+                <div class="circle circle6"></div>
+        </div>
         <div className="login">
             <h1>Crear Cuenta</h1>
         </div>
@@ -183,4 +190,4 @@ const validarFecha = () => {
         </>
     );
 }
-export default CrearCuenta;
+export default CrearCuentaUsuario;

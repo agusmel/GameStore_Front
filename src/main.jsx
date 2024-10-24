@@ -2,9 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
-import Categorias from './componentes/barraNavegacion';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom'
-import CrearCuenta from './paginas/CrearCuenta.jsx';
+import CrearCuentaUsuario from './paginas/CrearCuentaUsuario.jsx';
 import Catalogo from './paginas/Catalogo.jsx';
 import PerfilUsuario from './paginas/perfil.jsx';
 import GamePage from './paginas/GamePage.jsx';
@@ -13,6 +12,10 @@ import Biblioteca from './paginas/biblioteca.jsx';
 import Carrito from './paginas/Carrito.jsx';
 import Pagos from './paginas/Pagos.jsx';
 import Deseados from './paginas/Deseados.jsx';
+import LoginUsuario from './paginas/LoginUsuario.jsx';
+import LoginEmpresa from './paginas-empresa/LoginEmpresa.jsx';
+import PageInicio from './paginas/Pageinicio.jsx';
+import CrearCuentaEmpresa from './paginas-empresa/CrearCuentaEmpresa.jsx';
 
 const routes=[
   {
@@ -32,10 +35,6 @@ const routes=[
     element: <Carrito/>
   },
   {
-    path: "/categorias",
-    element: <Categorias/>
-  },
-  {
     path: "/biblioteca",
     element: <Biblioteca/>
   },
@@ -48,13 +47,25 @@ const routes=[
     element: <PerfilUsuario />
   },
   {
-    path: "/register",
-    element: <CrearCuenta/>
+    path: "/registrarUsuario",
+    element: <CrearCuentaUsuario/>
   },
   {
     path: "/pagos",
     element: <Pagos/>
   },
+  {
+    path: "/loginUsuario",
+    element: <LoginUsuario/>,
+},
+{
+  path: "/loginEmpresa",
+  element: <LoginEmpresa/>
+},
+{
+  path: "/registrarEmpresa",
+  element: <CrearCuentaEmpresa/>,
+},
   
 ]
 

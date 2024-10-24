@@ -1,4 +1,4 @@
-import './Login.css';
+import './LoginUsuario.css';
 import { Link, useNavigate } from 'react-router-dom'; 
 import React, { useState } from 'react';
 
@@ -16,7 +16,7 @@ export const sendLoginForm = async (credentials) => {
     return response.json();
 };
 
-const Login = () => {
+const LoginUsuario = () => {
     const [email, setEmail] = useState('');
     const [contrasena, setPassword] = useState('');
     const [isChecked, setIsChecked] = useState(false); 
@@ -38,12 +38,23 @@ const Login = () => {
 
     return (
         <>
+
+            <div className="fondo">
+                <div class="circle circle1"></div>
+                <div class="circle circle2"></div>
+                <div class="circle circle3"></div>
+                <div class="circle circle4"></div>
+                <div class="circle circle5"></div>
+                <div class="circle circle6"></div>
+            </div>
+
+
             <div className="login">
                 <h1>Iniciar Sesión</h1>    
             </div>
             <div className="create-account">
                 <h2>¿Tu primera vez?</h2>
-                <button><Link to="/register">Crea tu cuenta</Link></button>
+                <button><Link to="/registrarUsuario">Crea tu cuenta</Link></button>
             </div>
             
             <form className="datos" onSubmit={handleSubmit}>
@@ -75,7 +86,6 @@ const Login = () => {
 
                 <div className="olv-empre">
                     <button className='boton-olvide'>Olvide contraseña</button>
-                    <button className='boton-registrar-empresa'>Registrar empresa</button>           
                 </div>
                
                 <button type="submit" className="login-btn"><Link to="/tienda">Iniciar sesión</Link></button>
@@ -84,4 +94,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginUsuario;
