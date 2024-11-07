@@ -5,7 +5,7 @@ import { juegosEmpresa } from '../data/juegosEmpresa.js';
 import { juegos } from '../data/juegos.js';
 import BarraNavegacionEmpresa from '../componentes/BarraNavegacionEmpresa.jsx';
 import {CardEmpresa} from '../componentes/CardEmpresa.jsx';
-
+import { Link } from 'react-router-dom';
 function CatalogoEmpresa() {
     const juegoFiltrado = juegosEmpresa.map(juegoEmpresa => 
         juegos.find(j => j.nombre === juegoEmpresa.nombre) 
@@ -16,9 +16,9 @@ function CatalogoEmpresa() {
         <BarraNavegacionEmpresa/>
         
         <div className='box-juegos'>
-          <button className="card-agregar-juego">
+          <Link className="card-agregar-juego" to={"/loadGame"}>
             <AddIcon style={{fontSize: '100px'}}/>
-          </button>
+          </Link>
 
         
           {juegoFiltrado.map((juegos, index) => (

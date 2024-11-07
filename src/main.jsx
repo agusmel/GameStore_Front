@@ -19,6 +19,7 @@ import CrearCuentaEmpresa from './paginas-empresa/CrearCuentaEmpresa.jsx';
 import CatalogoEmpresa from './paginas-empresa/CatalogoEmpresa.jsx';
 import GamePageEmpresa from './paginas-empresa/GamePageEmpresa.jsx';
 import PerfilEmpresa from './paginas-empresa/PerfilEmpresa.jsx';
+import LoadGame from './paginas-empresa/LoadGame.jsx';
 
 const routes=[
   {
@@ -30,7 +31,7 @@ const routes=[
     element: <Catalogo/>
   },
   {
-    path: "/game/:id", // Ruta para la página de detalles del juego
+    path: "/game/:id" , // Ruta para la página de detalles del juego
     element: <GamePage/>
   },
   {
@@ -80,6 +81,10 @@ const routes=[
 {
   path: "/perfilEmpresa", // Ruta para la página de detalles del juego
   element: <PerfilEmpresa/>
+},
+{
+  path: "/loadGame", // Ruta para la página de detalles del juego
+  element: <LoadGame/>
 },
 
   

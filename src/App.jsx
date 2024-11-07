@@ -14,12 +14,13 @@ import CrearCuentaEmpresa from './paginas-empresa/CrearCuentaEmpresa.jsx';
 import CatalogoEmpresa from './paginas-empresa/CatalogoEmpresa.jsx';
 import GamePageEmpresa from './paginas-empresa/GamePageEmpresa.jsx';
 import PerfilEmpresa from './paginas-empresa/PerfilEmpresa.jsx';
+import LoadGame from './paginas-empresa/LoadGame.jsx';
 function App() {
  
 
   return (
     <>
-      <LoginUsuario/>
+      <CatalogoEmpresa/>
     </>
   );
 }
