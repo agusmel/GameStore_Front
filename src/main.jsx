@@ -30,7 +30,7 @@ const routes=[
     element: <Catalogo/>
   },
   {
-    path: "/game/:nombre", // Ruta para la página de detalles del juego
+    path: "/game/:id", // Ruta para la página de detalles del juego
     element: <GamePage/>
   },
   {

@@ -53,7 +53,7 @@ function Catalogo() {
       try {
         const dataCatalogo = await obtenerVideojuegosCatalogo();
         const dataCarrusel = await obtenerVideojuegosCarrusel();
-
+        console.log("Datos de juegosDest:", dataCarrusel);
         setJuegos(dataCatalogo);
         setJuegosDest(dataCarrusel);
       } catch (error) {
@@ -92,7 +92,7 @@ function Catalogo() {
           <ul ref={listRef}>
             {juegosDest.map((item, index) => (
               <li key={index} style={{ display: index === currentIndex ? 'block' : 'none' }}>
-                <CardGrande imagen={item.imagen} nombre={item.nombre} precio={item.precio} />
+                <CardGrande id={item.id} imagen={item.imagen_grande} nombre={item.nombre} precio={item.precio} />
               </li>
             ))}
           </ul>
@@ -102,7 +102,7 @@ function Catalogo() {
         </div>
         <div className='box-juegos'>
           {juegos.map((juego, index) => (
-            <Card key={index} imagen={juego.imagenChica} nombre={juego.nombre} precio={juego.precio} />
+            <Card id={juego.id} imagen={juego.imagen_chica} nombre={juego.nombre} precio={juego.precio} />
           ))}
         </div>
       </div>
