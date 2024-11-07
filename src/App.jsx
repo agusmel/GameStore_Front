@@ -11,13 +11,15 @@ import Deseados from './paginas/Deseados.jsx';
 import PageInicio from './paginas/Pageinicio.jsx';
 import LoginEmpresa from './paginas-empresa/LoginEmpresa.jsx';
 import CrearCuentaEmpresa from './paginas-empresa/CrearCuentaEmpresa.jsx';
-
+import CatalogoEmpresa from './paginas-empresa/CatalogoEmpresa.jsx';
+import GamePageEmpresa from './paginas-empresa/GamePageEmpresa.jsx';
+import PerfilEmpresa from './paginas-empresa/PerfilEmpresa.jsx';
 function App() {
  
 
   return (
     <>
-      <PageInicio/>
+      <PerfilEmpresa/>
     </>
   );
 }

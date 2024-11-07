@@ -39,7 +39,7 @@ function Navbar() {
           </li>
         </ul>
         <div className='box-input'>
-          <input type="text" className='busqueda-header' />
+          <input type="text" className='busqueda-header' placeholder="Buscar..." />
         </div>
       </nav>
     </header>

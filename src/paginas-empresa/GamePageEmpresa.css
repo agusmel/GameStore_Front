@@ -1,0 +1,52 @@
+.contenedor-superior {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.botonesAccion {
+    display: flex;   
+    gap: 20px; 
+    padding: 6px; 
+    margin-bottom: 10px;     
+  }
+
+.botonesAccion button{
+    background-color: #AB1010;
+    border-radius: 5px;
+    width: 150px;
+    height: 25px;   
+    cursor: pointer; 
+}
+
+
+.datosJuego {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se muevan a una nueva línea en pantallas pequeñas */
+    gap: 2px;
+    font-family: Arial, sans-serif;
+    flex-direction: row;
+    gap: 10%;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+  
+.label {
+    font-size: 16px;
+}
+  
+.static-field {
+    border: 1px solid #575757;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 200px;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 10px;
+
+}
+
+
+  

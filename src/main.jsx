@@ -16,11 +16,14 @@ import LoginUsuario from './paginas/LoginUsuario.jsx';
 import LoginEmpresa from './paginas-empresa/LoginEmpresa.jsx';
 import PageInicio from './paginas/Pageinicio.jsx';
 import CrearCuentaEmpresa from './paginas-empresa/CrearCuentaEmpresa.jsx';
+import CatalogoEmpresa from './paginas-empresa/CatalogoEmpresa.jsx';
+import GamePageEmpresa from './paginas-empresa/GamePageEmpresa.jsx';
+import PerfilEmpresa from './paginas-empresa/PerfilEmpresa.jsx';
 
 const routes=[
   {
-      path: "/",
-      element: <App/>,
+    path: "/",
+    element: <App/>,
   },
   {
     path: "/tienda",
@@ -66,6 +69,19 @@ const routes=[
   path: "/registrarEmpresa",
   element: <CrearCuentaEmpresa/>,
 },
+{
+  path: "/catalogoEmpresa",
+  element: <CatalogoEmpresa/>,
+},
+{
+  path: "/gameDetail/:nombre", // Ruta para la página de detalles del juego
+  element: <GamePageEmpresa/>
+},
+{
+  path: "/perfilEmpresa", // Ruta para la página de detalles del juego
+  element: <PerfilEmpresa/>
+},
+
   
 ]
 

@@ -1,0 +1,16 @@
+  .box {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+  
+  
+.navbarList {
+  display: flex;
+  background-color: transparent;
+  justify-content: space-around;
+  list-style: none;
+}

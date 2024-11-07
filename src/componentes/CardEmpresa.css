@@ -1,0 +1,62 @@
+.card-box {
+    background-color: rgb(12, 11, 11);
+    padding: 5px;
+    text-decoration: none
+  }
+
+
+  .card-box-grande {
+    background-color: transparent;
+    padding: 15px;
+    width: 650px;
+    right: 800px;
+    justify-content: center;  
+    margin: auto;
+    text-decoration: none
+
+  }
+
+  .game-image {
+    height: 300px;
+  }
+
+  .game-image-grande {
+    height: 350px;
+    width: auto;
+    display: flex;             
+   
+  }
+  
+  .game-title {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 4px;
+    
+  }
+  .game-title-grande {
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 4px;
+    width:  fit-content
+
+  }
+  
+  .game-price {
+    font-size: 0.9rem;
+    color:white;
+    
+  }
+
+  .game-price-grande {
+    font-size: 0.9rem;
+    color: #f8f8f8;
+    width: fit-content;
+  }
+
+  .game-box-bottom {
+    
+    display: flex;
+    justify-content: space-between;
+    
+  }
+  

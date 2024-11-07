@@ -69,7 +69,7 @@ const LoginEmpresa = () => {
                     <button className='boton-registrar-empresa'><Link to="/registrarEmpresa">Registrar empresa</Link></button>           
                 </div>
                
-                <button type="submit" className="login-btn"><Link to="/tienda">Iniciar sesión</Link></button>
+                <button type="submit" className="login-btn">Iniciar sesión</button>
             </form>
         </>
     );
