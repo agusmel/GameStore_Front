@@ -1,6 +1,5 @@
 import BarraNavegacionEmpresa from '../componentes/BarraNavegacionEmpresa.jsx';
 import React, { useState } from 'react';
-import './PerfilEmpresa.css';
 
 
 function PerfilEmpresa() {
