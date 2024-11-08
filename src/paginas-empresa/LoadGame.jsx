@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import './LoadGame.css';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { Link, useNavigate } from 'react-router-dom';
+
 function FormularioJuego() {
+    const [idiomas, setIdiomas] = useState([]);  // Estado para almacenar la lista de idiomas disponibles
     const [portada, setPortada] = useState(null);
     const [selectedOS, setSelectedOS] = useState("Windows");
     const [requisitos, setRequisitos] = useState({
@@ -18,6 +20,26 @@ function FormularioJuego() {
     const handleOSChange = (os) => {
         setSelectedOS(os);
     };
+
+
+    const handleAgregarIdioma = () => {
+        setIdiomas([...idiomas, { nombre: "", interfaz: false, audio: false, subtitulos: false }]);
+        // Agrega un nuevo idioma con campos vacíos e inicia los valores de interfaz, audio y subtítulos en false
+    };
+
+    const handleIdiomaNombreChange = (index, value) => {
+        const newIdiomas = [...idiomas];
+        newIdiomas[index].nombre = value;  // Cambia el nombre del idioma en el índice correspondiente
+        setIdiomas(newIdiomas);
+    };
+
+    const handleIdiomaChange = (index, field) => {
+        const newIdiomas = [...idiomas];
+        newIdiomas[index][field] = !newIdiomas[index][field];  // Cambia el estado de interfaz, audio o subtítulos para un idioma
+        setIdiomas(newIdiomas);
+    };
+
+
 
     const handleRequisitoChange = (tipo, campo, value) => {
         setRequisitos((prevRequisitos) => ({
@@ -39,14 +61,27 @@ function FormularioJuego() {
                     <div className="icono-portada"><PhotoCameraIcon /></div>
                     <span>Portada</span>
                 </label>
-                <input type="text" placeholder="Nombre del juego" className="input-nombre" />
                 <input id="portada-input" type="file" onChange={handleFileChange} hidden />
             </div>
             <div className="campos-superiores">
-                <input type="text" placeholder="Categoría" className="input-categoria" />
+                <input type="text" placeholder="Nombre del juego" className="input-nombre" />
                 <input placeholder="Precio" className="input-precio" />
             </div>
-            <input placeholder="Descripción del juego" className="textarea-descripcion"></input>
+            <textarea placeholder="Descripción del juego" className="textarea-descripcion"></textarea>
+
+
+            <div className="etiquetas">
+                <h4>Etiquetas</h4>
+                    <label><input type="checkbox" /> FPS</label>
+                    <label><input type="checkbox" /> Survival</label>
+                    <label><input type="checkbox" /> Battle royale</label>
+                    <label><input type="checkbox" /> Mundo abierto</label>
+                    <label><input type="checkbox" /> Fantasia</label>
+                    <label><input type="checkbox" /> RPG</label>
+
+            </div>
+
+
 
             <div className="os-selector">
                 <button className={selectedOS === "Windows" ? "active" : ""} onClick={() => handleOSChange("Windows")}>Windows</button>
@@ -72,18 +107,33 @@ function FormularioJuego() {
                     <input placeholder="Almacenamiento:" value={requisitos[selectedOS].recomendados.almacenamiento || ""} onChange={(e) => handleRequisitoChange("recomendados", "almacenamiento", e.target.value)} />
                 </div>
             </div>
+            
+            <div className="opciones">
+                <div className="caract">
+                    <h4>Características</h4>
+                    <label><input type="checkbox" /> Un jugador</label>
+                    <label><input type="checkbox" /> Cooperativo online</label>
+                    <label><input type="checkbox" /> Compatible con mando</label>
+                    <label><input type="checkbox" /> Multijugador en linea</label>
+                    <label><input type="checkbox" /> Compatible con volante</label>
+                    <label><input type="checkbox" /> Tienda de mods</label>
+                    <label><input type="checkbox" /> Requiere conexión a Internet </label>
+                    <label><input type="checkbox" /> Modo VR</label>
+                    <label><input type="checkbox" /> Contenido adicional descargable</label>
+                </div>
 
-            <div className="caract">
-                <label><input type="checkbox" /> Un jugador</label>
-                <label><input type="checkbox" /> Cooperativo online</label>
-                <label><input type="checkbox" /> Compatible con mando</label>
-                <label><input type="checkbox" /> multijugador en linea</label>
-                <label><input type="checkbox" /> conpatible con volante</label>
-                <label><input type="checkbox" /> tienda de mods</label>
-                <label><input type="checkbox" /> Requiere conexión a Internet </label>
-                <label><input type="checkbox" /> Modo VR</label>
-                <label><input type="checkbox" /> Contenido adicional descargable</label>
-   
+                <div className="lenguajes">
+                    <h4>Idiomas Disponibles</h4>
+                    {idiomas.map((idioma, index) => (
+                        <div key={index} className="idioma">
+                            <input type="text" placeholder="Idioma" value={idioma.nombre} onChange={(e) => handleIdiomaNombreChange(index, e.target.value)} className="input-idioma"/> 
+                            <label><input type="checkbox" checked={idioma.interfaz} onChange={() => handleIdiomaChange(index, 'interfaz')}/>Interfaz</label>
+                            <label><input type="checkbox" checked={idioma.audio} onChange={() => handleIdiomaChange(index, 'audio')}/>Audio </label>
+                            <label><input type="checkbox"checked={idioma.subtitulos} onChange={() => handleIdiomaChange(index, 'subtitulos')}/>Subtítulos</label>
+                        </div>
+                    ))}
+                    <button onClick={handleAgregarIdioma}>Agregar Idioma</button>  
+                </div>
             </div>
 
             <div className="button">

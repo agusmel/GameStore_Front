@@ -27,8 +27,8 @@ function GamePageEmpresa() {
                 </div>
 
                 <div className="botonesAccion">
-                    <button>Modificar</button>
-                    <button onClick={cambiarTextoBoton}>{textoPausarPublicacion}</button>
+                <Link to={`/editGames/${nombre}`}>Modificar</Link>
+                <button onClick={cambiarTextoBoton}>{textoPausarPublicacion}</button>
                     <button>Eliminar</button>
                 </div>
 

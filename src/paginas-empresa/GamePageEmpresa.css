@@ -19,6 +19,19 @@
     cursor: pointer; 
 }
 
+.botonesAccion a {
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    background-color: #AB1010;
+    border-radius: 5px;
+    width: 150px;
+    height: 25px;
+    cursor: pointer; 
+    text-decoration: none;
+    color: white;
+}
+
 
 .datosJuego {
     display: flex;

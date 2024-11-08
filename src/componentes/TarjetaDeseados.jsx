@@ -1,7 +1,7 @@
 import React from "react";
 import './TarjetaDeseados.css';
 
-function TarjetaDeados({ nombre, imagen }) {
+function TarjetaDeseados({ nombre, imagen, handleEliminar, id_videojuego }) {
     return (
         <div className="game-card">
             <div className="left-card-game">
@@ -9,10 +9,10 @@ function TarjetaDeados({ nombre, imagen }) {
                 <p>{nombre}</p>
             </div>
             <div className="derecha-card-game">
-                <button>Eliminar</button>
+                <button onClick={() => handleEliminar(id_videojuego)}>Eliminar</button> {/* Pasamos id_videojuego correctamente */}
             </div>
         </div>
     );
 }
 
-export default TarjetaDeados;
+export default TarjetaDeseados;

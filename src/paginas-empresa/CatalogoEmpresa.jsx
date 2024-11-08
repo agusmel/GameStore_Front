@@ -16,7 +16,7 @@ function CatalogoEmpresa() {
         <BarraNavegacionEmpresa/>
         
         <div className='box-juegos'>
-          <Link className="card-agregar-juego" to={"/loadGame"}>
+          <Link className="card-agregar-juego" to={"/LoadGame"}>
             <AddIcon style={{fontSize: '100px'}}/>
           </Link>
 

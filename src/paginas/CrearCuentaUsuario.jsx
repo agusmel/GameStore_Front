@@ -184,7 +184,7 @@ const validarFecha = () => {
                 <span>Aceptar Términos y Condiciones</span>          
             </div>
 
-            <button className="create-btn" ><Link to="/tienda">Crear</Link></button>
+            <button className="create-btn" >Crear</button>
 
         </form>
         </>

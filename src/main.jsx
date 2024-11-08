@@ -20,6 +20,7 @@ import CatalogoEmpresa from './paginas-empresa/CatalogoEmpresa.jsx';
 import GamePageEmpresa from './paginas-empresa/GamePageEmpresa.jsx';
 import PerfilEmpresa from './paginas-empresa/PerfilEmpresa.jsx';
 import LoadGame from './paginas-empresa/LoadGame.jsx';
+import EditGames from './paginas-empresa/EditGames.jsx';
 
 const routes=[
   {
@@ -28,6 +29,10 @@ const routes=[
   },
   {
     path: "/tienda",
+    element: <Catalogo/>
+  },
+  {
+    path: "/tienda/:categorias",
     element: <Catalogo/>
   },
   {
@@ -85,6 +90,10 @@ const routes=[
 {
   path: "/loadGame", // Ruta para la página de detalles del juego
   element: <LoadGame/>
+},
+{
+  path: "/editGames/:nombre", // Ruta para la página de detalles del juego
+  element: <EditGames/>
 },
 
   

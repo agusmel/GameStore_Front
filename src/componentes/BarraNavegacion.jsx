@@ -19,11 +19,11 @@ function Navbar() {
             <li>Categorías</li>
             {menuVisible && ( // Mostrar menú desplegable si está visible
               <ul className='submenu'>
-                <li><Link to="/categorias/categoria1">FPS</Link></li>
-                <li><Link to="/categorias/categoria2">Survival</Link></li>
-                <li><Link to="/categorias/categoria3">mundo abierto</Link></li>
-                <li><Link to="/categorias/categoria4">farmeo</Link></li>
-                <li><Link to="/categorias/categoria4">construccion</Link></li>
+                <li><Link to="/tienda/FPS">FPS</Link></li>
+                <li><Link to="/tienda/Survival">Survival</Link></li>
+                <li><Link to="/tienda/mundo abierto">mundo abierto</Link></li>
+                <li><Link to="/tienda/farmeo">farmeo</Link></li>
+                <li><Link to="/tienda/construccion">construccion</Link></li>
                
               </ul>
             )}

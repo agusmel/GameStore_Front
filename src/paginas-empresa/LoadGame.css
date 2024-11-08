@@ -10,6 +10,7 @@
 
 .portada {
     display: flex;
+    justify-content: center;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -34,7 +35,6 @@
 
 .campos-superiores {
     display: flex;
-    justify-content: space-between;
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -48,7 +48,7 @@
 
 }
 
-.input-categoria,
+.input-nombre,
 .input-precio {
     flex: 1;
     padding: 10px;
@@ -60,12 +60,29 @@
 .textarea-descripcion {
     width: 100%;
     height: 100px;
-    margin-bottom: 20px;
     padding: 10px;
     border-radius: 4px;
     border: 1px solid #333;
     background-color: #2c2c2c;
 }
+
+.etiquetas {
+    width: 100%;  
+    max-height: 90px;  
+    border: 1px solid #333;  
+    overflow-y: auto; 
+    margin-bottom: 20px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 10px; 
+}
+
+.etiquetas h4 {
+    grid-column: span 3; 
+    margin-bottom: 5px;
+}
+
 
 .os-selector {
     display: flex;
@@ -104,24 +121,49 @@
     border: 1px solid #333;
     background-color: #2c2c2c;
 }
+.opciones {
+    display: flex;  
+    gap: 10px;  
+}
 
-.caract {
+.caract{
     display: flex;
-    flex-wrap: wrap; 
-    overflow-y: auto; 
+    flex-direction: column;
+    width: 50%;  
+    max-height: 140px;  
+    border: 1px solid #333;  
     padding: 10px;
-    gap: 1px;
-    overflow-y: auto;
-    border: 1px solid #333;
-    max-height: 140px;
+    overflow-y: auto;   
+}
+.caract h4 {
+    margin-bottom: 5px;
+}
+
+.lenguajes {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 50%; 
+    max-height: 140px;  
+    border: 1px solid #333; 
+    overflow-y: auto;  
+    gap: 10px;
+}
+
+.caract label, .idiomas label {
+    font-size: 0.9em;
+    margin: 3px;  
     
 }
 
-.caract label {
-    font-size: 0.9em;
-    margin: 5px; 
-    overflow-y: auto; 
+.idioma {
+    display: flex;  /* Para que los elementos del idioma estén en línea */
+    align-items: center;
+    gap: 10px;  /* Espacio entre el nombre del idioma y los checkboxes */
+}
 
+.input-idioma {
+    width: 100px;  /* Ancho para el campo de nombre del idioma */
 }
 
 .button {

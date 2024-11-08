@@ -2,7 +2,8 @@ import React from "react";
 import './TarjetaCarrito.css';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function TarjetaCarrito({ nombre, precio, imagen }) {
+// Componente TarjetaCarrito
+function TarjetaCarrito({ id_videojuego, nombre, precio, imagen, handleEliminarProducto }) {
     return (
         <div className="game-card">
             <div className="left-card-game">
@@ -11,7 +12,9 @@ function TarjetaCarrito({ nombre, precio, imagen }) {
             </div>
             <div className="right-card-game">
                 <p>{precio}</p> 
-                <button><DeleteIcon /></button>
+                <button onClick={() => handleEliminarProducto(id_videojuego)}>
+                    <DeleteIcon />
+                </button>
             </div>
         </div>
     );

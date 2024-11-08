@@ -122,7 +122,6 @@ const PerfilUsuario = () => {
                     {perfil && (
                         <>
                             <h1>{perfil.nombre_usuario}</h1>
-                            <p>{perfil.email}</p>
                             <form className="formulario">
                                 <div className="campo">
                                     <label htmlFor="nombre">Nombre</label>
