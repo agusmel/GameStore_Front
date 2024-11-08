@@ -4,9 +4,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import BarraNavegacion from '../componentes/barraNavegacion.jsx';
+import { useParams } from 'react-router-dom';
 
 function Catalogo() {
   const listRef = useRef();
+  const { categorias } = useParams(); // Captura la categoría desde la URL
   const [currentIndex, setCurrentIndex] = useState(0);
   const [juegos, setJuegos] = useState([]);
   const [juegosDest, setJuegosDest] = useState([]);
@@ -17,7 +19,7 @@ function Catalogo() {
       const response1 = await fetch("http://localhost:3000/api/videojuegos/catalogo", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
-        credentials:'include'
+        credentials: 'include'
       });
       if (!response1.ok) throw new Error("Error al obtener el catálogo");
       return await response1.json();
@@ -27,8 +29,6 @@ function Catalogo() {
     }
   };
 
-  const juegosCatalogo =  obtenerVideojuegosCatalogo();
-  console.log(juegosCatalogo);
   // Función para obtener los videojuegos destacados del carrusel
   const obtenerVideojuegosCarrusel = async () => {
     try {
@@ -45,8 +45,6 @@ function Catalogo() {
     }
   };
 
-
-
   // useEffect para cargar los datos al montar el componente
   useEffect(() => {
     const cargarVideojuegos = async () => {
@@ -62,6 +60,38 @@ function Catalogo() {
     };
     cargarVideojuegos();
   }, []);
+
+  // Filtrar juegos según la categoría en la URL
+  const juegosFiltradosPorEtiqueta = categorias
+    ? juegos.filter((juego) => juego.etiquetas && juego.etiquetas.includes(categorias))
+    : juegos;
+
+  // Si no hay resultados con etiquetas, filtrar por características
+  const juegosFiltradosPorCaracteristica = juegosFiltradosPorEtiqueta.length > 0
+    ? juegosFiltradosPorEtiqueta
+    : juegos.filter((juego) => 
+        juego.caracteristicas && 
+        juego.caracteristicas.includes(categorias)
+      );
+
+  // Si no hay resultados por etiquetas ni características, filtrar por idiomas
+  const juegosFiltradosPorIdioma = juegosFiltradosPorCaracteristica.length > 0
+    ? juegosFiltradosPorCaracteristica
+    : juegos.filter((juego) => 
+        juego.idiomas && 
+        juego.idiomas.some((idioma) => idioma.idioma === categorias)
+      );
+
+  // Si no hay resultados por etiquetas, características ni idiomas, filtrar por requisitos
+  const juegosFiltrados = juegosFiltradosPorIdioma.length > 0
+    ? juegosFiltradosPorIdioma
+    : juegos.filter((juego) => 
+        juego.requisitos && (
+          (categorias === 'windows' && (juego.requisitos.windows?.minimos || juego.requisitos.windows?.recomendados)) ||
+          (categorias === 'linux' && (juego.requisitos.linux?.minimos || juego.requisitos.linux?.recomendados)) ||
+          (categorias === 'mac' && (juego.requisitos.mac?.minimos || juego.requisitos.mac?.recomendados))
+        )
+      );
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % juegosDest.length);
@@ -80,6 +110,8 @@ function Catalogo() {
       });
     }
   }, [currentIndex]);
+
+  console.log(categorias);
 
   return (
     <>
@@ -101,8 +133,8 @@ function Catalogo() {
           </button>
         </div>
         <div className='box-juegos'>
-          {juegos.map((juego, index) => (
-            <Card id={juego.id} imagen={juego.imagen_chica} nombre={juego.nombre} precio={juego.precio} />
+          {juegosFiltrados.map((juego, index) => (
+            <Card key={juego.id || index} id={juego.id} imagen={juego.imagen_chica} nombre={juego.nombre} precio={juego.precio} />
           ))}
         </div>
       </div>

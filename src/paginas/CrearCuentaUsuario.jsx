@@ -1,6 +1,6 @@
 import './CrearCuentaUsuario.css';
-import { Link, useNavigate } from 'react-router-dom'; 
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
@@ -8,80 +8,96 @@ function CrearCuentaUsuario() {
     const [isChecked, setIsChecked] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [formData, setFormData] = useState({
+        nombre: '',
+        apellido: '',
+        nombre_usuario: '',
+        email: '',
+        dia: '',
+        mes: '',
+        anio: '',
+        contrasena: ''
+    });
     const navigate = useNavigate();
 
     const handleToggle = () => {
         setIsChecked(prev => !prev);
     };
-    
 
-    // Llenar opciones de día
+    // Función para manejar los cambios en los campos
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
+    // Generar días
     const generarDias = () => {
-       const dias = [<option key="" value="">- Día -</option>];
-       for (let i = 1; i <= 31; i++) {
-           dias.push(<option key={i} value={i}>{i}</option>);
-       }
-       return dias;
-   };
+        const dias = [<option key="" value="">- Día -</option>];
+        for (let i = 1; i <= 31; i++) {
+            dias.push(<option key={i} value={i}>{i}</option>);
+        }
+        return dias;
+    };
 
-   // Llenar opciones de mes
-   const generarMeses = () => {
-       const meses =  [<option key="" value="">- Mes -</option>];
-       for (let i = 1; i <= 12; i++) {
-           meses.push(<option key={i} value={i}>{i}</option>);
-       }
-       return meses;
-   };
+    // Generar meses
+    const generarMeses = () => {
+        const meses = [<option key="" value="">- Mes -</option>];
+        for (let i = 1; i <= 12; i++) {
+            meses.push(<option key={i} value={i}>{i}</option>);
+        }
+        return meses;
+    };
 
-   // Llenar opciones de año 
-   const generarAnios = () => {
-       const anios =  [<option key="" value="">- Año -</option>];
-       const currentYear = new Date().getFullYear();
-       for (let i = 1900; i <= currentYear; i++) {
-           anios.push(<option key={i} value={i}>{i}</option>);
-       }
-       return anios;
-   };
-   // validar la fecha
-const validarFecha = () => {
-    const dia = parseInt(document.getElementById('dia').value);
-    const mes = parseInt(document.getElementById('mes').value) - 1; 
-    const anio = parseInt(document.getElementById('anio').value);
+    // Generar años
+    const generarAnios = () => {
+        const anios = [<option key="" value="">- Año -</option>];
+        const currentYear = new Date().getFullYear();
+        for (let i = 1900; i <= currentYear; i++) {
+            anios.push(<option key={i} value={i}>{i}</option>);
+        }
+        return anios;
+    };
 
-    const fecha = new Date(anio, mes, dia);
-    const fechaActual = new Date(); 
+    // Validar fecha
+    const validarFecha = () => {
+        const { dia, mes, anio } = formData;
+        const fecha = new Date(anio, mes - 1, dia);
+        const fechaActual = new Date();
+        const esFechaValida = (fecha.getDate() === parseInt(dia) && fecha.getMonth() === parseInt(mes) - 1 && fecha.getFullYear() === parseInt(anio));
 
-    const esFechaValida = (fecha.getDate() === dia && fecha.getMonth() === mes && fecha.getFullYear() === anio);
-
-    if (isNaN(anio) || isNaN(mes) || isNaN(dia) || dia === 0 || mes === -1 || anio === 0) {
+        if (isNaN(anio) || isNaN(mes) || isNaN(dia) || dia === "" || mes === "" || anio === "") {
+            setErrorMessage('Por favor ingresa una fecha válida');
+            return false;
+        }
+        if (!esFechaValida) {
+            setErrorMessage('Fecha no válida');
+            return false;
+        }
+        if (fecha > fechaActual) {
+            setErrorMessage('La fecha no puede ser mayor a la fecha actual');
+            return false;
+        }
         setErrorMessage('');
-        return;
-    }
-    if (!esFechaValida) {
-        setErrorMessage('Fecha no válida');
-        return;
-    }
-    if (fecha > fechaActual) {
-        setErrorMessage('La fecha no puede ser mayor a la fecha actual');
-    } else {
-        setErrorMessage('');
-    }
+        return true;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const nombre = document.getElementById('Nombre').value;
-        const apellido = document.getElementById('Apellido').value;
-        const nombre_usuario = document.getElementById('Nombre-usuario').value;
-        const email = document.getElementById('Mail').value;
-        const dia = document.getElementById('dia').value;
-        const mes = document.getElementById('mes').value;
-        const anio = document.getElementById('anio').value;
-        const contrasena = document.getElementById('Contraseña').value;
-
+        const { nombre, apellido, nombre_usuario, email, dia, mes, anio, contrasena } = formData;
         const fecha_nacimiento = `${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`; // Formato YYYY-MM-DD
 
+        // Verificar que todos los campos estén completos
         if (!nombre || !apellido || !nombre_usuario || !email || !dia || !mes || !anio || !contrasena || errorMessage) {
             setErrorMessage('Por favor, complete todos los campos correctamente.');
+            return;
+        }
+
+        // Validar la fecha antes de enviar el formulario
+        if (!validarFecha()) {
             return;
         }
 
@@ -95,7 +111,7 @@ const validarFecha = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/api/register', {
+            const response = await fetch('http://localhost:3000/api/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -105,9 +121,8 @@ const validarFecha = () => {
             const result = await response.json();
 
             if (result.exito) {
-                navigate('/tienda');
+                navigate('/loginUsuario');
                 setSuccessMessage('Usuario creado exitosamente');
-                // Opcional: Redirigir o limpiar el formulario
             } else {
                 setErrorMessage(result.mensaje || 'Error al crear el usuario');
             }
@@ -117,66 +132,117 @@ const validarFecha = () => {
             setErrorMessage('Error en la solicitud');
         }
     };
-};
 
     return (
         <>
         <div className="fondo">
-                <div class="circle circle1"></div>
-                <div class="circle circle2"></div>
-                <div class="circle circle3"></div>
-                <div class="circle circle4"></div>
-                <div class="circle circle5"></div>
-                <div class="circle circle6"></div>
+            <div className="circle circle1"></div>
+            <div className="circle circle2"></div>
+            <div className="circle circle3"></div>
+            <div className="circle circle4"></div>
+            <div className="circle circle5"></div>
+            <div className="circle circle6"></div>
         </div>
         <div className="login">
             <h1>Crear Cuenta</h1>
         </div>
 
-        <form className="datos">
-
+        <form className="datos" onSubmit={handleSubmit}>
             <div className="sub-title">
-                <label htmlFor="nombre">Nombre </label>
-                <input type="text" className="input" id="Nombre" autocomplete=" given-name"/>
+                <label htmlFor="Nombre">Nombre</label>
+                <input
+                    type="text"
+                    className="input"
+                    id="Nombre"
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    autoComplete="given-name"
+                />
             </div>
 
             <div className="sub-title">
                 <label htmlFor="Apellido">Apellido</label>
-                <input type="text" className="input" id="Apellido" autocomplete="family-name" />
+                <input
+                    type="text"
+                    className="input"
+                    id="Apellido"
+                    name="apellido"
+                    value={formData.apellido}
+                    onChange={handleChange}
+                    autoComplete="family-name"
+                />
             </div>
 
             <div className="sub-title">
-                <label htmlFor="nombre-usuario">Nombre de usuario</label>
-                <input type="text" className="input" id="Nombre-usuario"/>
+                <label htmlFor="Nombre-usuario">Nombre de usuario</label>
+                <input
+                    type="text"
+                    className="input"
+                    id="Nombre-usuario"
+                    name="nombre_usuario"
+                    value={formData.nombre_usuario}
+                    onChange={handleChange}
+                />
             </div>
 
             <div className="sub-title">
                 <label htmlFor="Mail">Mail</label>
-                <input type="email" className="input" id="Mail" placeholder="xxxxxx@gmail.com" autocomplete="email" />
+                <input
+                    type="email"
+                    className="input"
+                    id="Mail"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="xxxxxx@gmail.com"
+                    autoComplete="email"
+                />
             </div>
 
             <div className="nacimiento">
-
                 <label htmlFor="nacimiento">Fecha de Nacimiento</label>
-
                 <div className="select-container">
-                    <select id="dia" onChange={validarFecha} >
+                    <select
+                        id="dia"
+                        name="dia"
+                        value={formData.dia}
+                        onChange={handleChange}
+                    >
                         {generarDias()}
                     </select>
-                    <select id="mes" onChange={validarFecha}>
+                    <select
+                        id="mes"
+                        name="mes"
+                        value={formData.mes}
+                        onChange={handleChange}
+                    >
                         {generarMeses()}
                     </select>
-                    <select id="anio" onChange={validarFecha}>
+                    <select
+                        id="anio"
+                        name="anio"
+                        value={formData.anio}
+                        onChange={handleChange}
+                    >
                         {generarAnios()}
                     </select>
                 </div>
-                {/* Mostrar mensaje de error si la fecha es inválida*/}
+                {/* Mostrar mensaje de error si la fecha es inválida */}
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        </div>
-            
+            </div>
+
             <div className="sub-title">
-                <label >Contraseña (entre 10 y 15 caracteres)</label>
-                <input type="password" className="input" id="Contraseña" placeholder="xxxxxxxxxxxx" />
+                <label htmlFor="Contraseña">Contraseña (entre 10 y 15 caracteres)</label>
+                <input
+                    type="password"
+                    className="input"
+                    id="Contraseña"
+                    name="contrasena"
+                    value={formData.contrasena}
+                    onChange={handleChange}
+                    placeholder="************"
+                />
             </div>
 
             <div className="checkbox-container" onClick={handleToggle} style={{ cursor: 'pointer' }}>
@@ -184,10 +250,10 @@ const validarFecha = () => {
                 <span>Aceptar Términos y Condiciones</span>          
             </div>
 
-            <button className="create-btn" >Crear</button>
-
+            <button type="submit" className="create-btn" disabled={!isChecked}>Crear Cuenta</button>
         </form>
         </>
     );
 }
+
 export default CrearCuentaUsuario;

@@ -1,3 +1,4 @@
+/* Estilos generales para la barra de navegación */
 .navbar {
   border-bottom: transparent;
   height: fit-content;
@@ -7,23 +8,17 @@
   gap: 10px;
   justify-content: center;
   background-color:rgba(070718);
-
 }
-
-
 
 .elemento-header {
   font-size: 20px;
   text-decoration: none;
-  position: relative; /* Posicionamiento relativo para el submenu */
-
-
+  position: relative;
 }
 
 .elemento-header a{
   text-decoration: none;
   color: white;
-  
 } 
 
 .usuario-header {
@@ -31,10 +26,7 @@
   align-items: center;
   gap: 10px;
   color: white;
-  
-  
 }
-
 
 .navbar-list {
   display: flex;
@@ -67,11 +59,9 @@
   color: white;
 }
 
-
-
+/* Submenú */
 .submenu {
   position: absolute; 
- 
   display: flex;
   background-color: #444; 
   border-radius: 5px;
@@ -81,14 +71,70 @@
   flex-wrap: wrap;
   z-index: 1;
 }
+
 .submenu a {
   padding: 10px 15px;
   display: block;
   text-decoration: underline;
 }
 
-
 .submenu a:hover {
-  background-color: #555; /* Color de fondo al pasar el mouse */
+  background-color: #555;
 }
 
+/* Estilos del menú de precios */
+.price-menu {
+  padding: 15px;
+  width: 250px;
+}
+
+.price-slider {
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  margin: 10px 0;
+  position: relative;
+}
+
+.price-slider .track {
+  background: #ddd;
+  height: 8px;
+  top: 0;
+  position: absolute;
+}
+
+.price-slider .track-selected {
+  background: #1351ec;
+}
+
+.price-slider .thumb {
+  width: 20px;
+  height: 20px;
+  background: #1351ec;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+}
+
+.price-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: white;
+  gap: 2px;
+}
+
+.apply-price {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #1351ec;
+  color: white;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 5px;
+}
