@@ -14,7 +14,7 @@ function BarraNavegacionEmpresa() {
                     <li className='elemento-header'>
                     <div className='usuario-header'>              
                         <AccountCircleIcon/>
-                        <Link to ="/perfilEmpresa">front software</Link>
+                        <Link to ="/perfilEmpresa"> Perfil</Link>
                     </div>
                     </li>
                 </ul>
