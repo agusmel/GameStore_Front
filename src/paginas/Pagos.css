@@ -33,12 +33,12 @@
 }
 
 
-.campo-vencimietno {
+.campo-vencimiento {
     width: 29%;
     
 }
 
-.campo-vencimietno input[type="text"] {
+.campo-vencimiento input[type="text"] {
     background-color: #2c2630; 
     border-radius: 5px; 
     height: 40px; 
@@ -47,20 +47,20 @@
     
 }
 
-.campo-vencimietno input::placeholder {
+.campo-vencimiento input::placeholder {
     color: white; 
     font-size: medium;
 }
 
-.campo-vencimietno input[type="text"] {
+.campo-vencimiento input[type="text"] {
     text-align: center; 
 }
 
-.campo-vencimietno label{
+.campo-vencimiento label{
     display: flex; 
 }
 
-.campo-vencimietno select{
+.campo-vencimiento select{
     background-color: #2c2630;
     border-radius: 5px;
     height: 40px;
@@ -199,7 +199,8 @@ width: 98%;
     font-size: 16px; 
     position: relative;
     bottom: 0;
-    float: right;  
+    float: right; 
+    cursor: pointer; 
 }
 
 .boton2{
