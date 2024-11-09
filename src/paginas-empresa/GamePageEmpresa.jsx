@@ -1,63 +1,51 @@
 import './GamePageEmpresa.css';
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import BarraNavegacionEmpresa from '../componentes/BarraNavegacionEmpresa.jsx';
 
 function GamePageEmpresa() {
     const { id } = useParams(); // Obtenemos el 'id' del juego de la URL
     const [juego, setJuego] = useState(null); // Estado para almacenar los datos del juego
-    const [loading, setLoading] = useState(true); // Estado para controlar la carga
-    const [error, setError] = useState(null); // Estado para manejar errores
 
-    // Efecto que se ejecuta cuando el componente se monta
+    // useEffect para cargar los datos
     useEffect(() => {
-        // Fetch para obtener los datos del juego desde el backend, ahora usando 'id'
         const fetchJuego = async () => {
             try {
                 const response = await fetch(`http://localhost:3000/api/videojuegos/empresaJuego/${id}`, {
-                    method: "GET",                             // Método GET
+                    method: "GET", 
                     headers: { 
-                        "Content-Type": "application/json"    // Cabecera indicando que se espera JSON
+                        "Content-Type": "application/json"
                     },
-                    credentials: "include",                    // Incluir credenciales (cookies, sesión)
+                    credentials: "include", 
                 });
 
-                if (!response.ok) {
-                    throw new Error('No se pudo obtener el juego');
+                if (response.ok) {
+                    const data = await response.json();
+                    // Si los datos vienen como un array, accedemos al primer elemento
+                    if (data.length > 0) {
+                        setJuego(data[0]); // Establecemos el juego solo si hay datos
+                    }
                 }
-
-                const data = await response.json();
-                console.log(data); // Procesamos la respuesta
-                setJuego(data); // Actualizamos el estado con los datos del juego
-                setLoading(false); // Cambiamos el estado de carga
             } catch (error) {
-                setError(error.message); // Capturamos cualquier error
-                setLoading(false); // También cambiamos el estado de carga
+                console.error('Error al obtener el juego:', error);
             }
         };
 
         fetchJuego(); // Llamamos a la función fetch al montar el componente
-    }, [id]); // Solo se ejecuta cuando 'id' cambia
+    }, [id]); // Dependencia de 'id' para que se recargue cuando cambie
 
-    // Si estamos cargando, mostramos un mensaje de carga
-    if (loading) {
-        return <div>Cargando...</div>;
-    }
-
-    // Si ocurre un error, lo mostramos
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
-    // Si no se encuentra el juego, mostramos un mensaje
-
-
+    // Función para alternar el texto del botón
     const [textoPausarPublicacion, setTextoDespausarPublicacion] = useState("Pausar publicacion");
 
     const cambiarTextoBoton = () => {
         setTextoDespausarPublicacion((prevTexto) => (prevTexto === "Pausar publicacion" ? "Despausar publicacion" : "Pausar publicacion"));
     };
 
+    if (!juego) {
+        return null; // Si no hay datos de juego, no renderizamos nada
+    }
+
+    console.log(juego);
     return (
         <>
             <BarraNavegacionEmpresa />
@@ -67,26 +55,28 @@ function GamePageEmpresa() {
                 </div>
 
                 <div className="botonesAccion">
-                    <button>Modificar</button>
-                    <button onClick={cambiarTextoBoton}>{textoPausarPublicacion}</button>
-                    <button>Eliminar</button>
+                    <Link className="modificar-boton" to={`/editGames/${id}`}>Modificar</Link>
+                    <button onClick={cambiarTextoBoton} className="pausar-boton">
+                        {textoPausarPublicacion}
+                    </button>
+                    <button className="eliminar-boton">Eliminar</button>
                 </div>
 
                 <div className="contenedor-superior">
                     <img 
                         className="imagen-juego"
-                        src={juego.imagen_chica}
-                        alt="Portada del juego"
+                        src={juego.imagen_grande || '/default-image.png'} 
+                        alt={`Portada de ${juego.nombre}`}
                     />
                     <div className="informacion">
                         <h2>Desarrollador</h2>
-                        <p>nombre: {juego.desarrollador}</p>
-                        <p className='descripcion'>descripcion: {juego.descripcion}</p>
-                        <p className='logo-desarrollador' style={{ fontSize: '1.5rem'}}>logo</p>
+                        <p>Nombre: {juego.desarrollador || 'Desarrollador no disponible'}</p>
+                        <p className='descripcion'>Descripción: {juego.descripcion || 'Descripción no disponible'}</p>
+                        <p className='logo-desarrollador' style={{ fontSize: '1.5rem' }}>Logo</p>
                         <img 
-                            className="developer-logo"                           
-                            src={juego.logo}
-                            alt="Logo del desarrollador"
+                            className="developer-logo"                            
+                            src={juego.logo || '/default-logo.png'} 
+                            alt={`Logo de ${juego.desarrollador}`}
                         />
                     </div>
                 </div>
@@ -112,9 +102,7 @@ function GamePageEmpresa() {
                             <label className="label">Tasa de conversión</label>
                             <div className="static-field">{juego.tasa_conversion}</div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </>

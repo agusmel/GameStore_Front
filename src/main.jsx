@@ -92,7 +92,7 @@ const routes=[
   element: <LoadGame/>
 },
 {
-  path: "/editGames/:nombre", // Ruta para la página de detalles del juego
+  path: "/editGames/:id", // Ruta para la página de detalles del juego
   element: <EditGames/>
 },
 
