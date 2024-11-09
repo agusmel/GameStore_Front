@@ -7,6 +7,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 function CrearCuentaUsuario() {
     const [isChecked, setIsChecked] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [errorFecha, setErrorFecha] = useState(''); // Estado separado para el error de fecha
     const [successMessage, setSuccessMessage] = useState('');
     const [formData, setFormData] = useState({
         nombre: '',
@@ -24,7 +25,6 @@ function CrearCuentaUsuario() {
         setIsChecked(prev => !prev);
     };
 
-    // Función para manejar los cambios en los campos
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevData => ({
@@ -33,7 +33,6 @@ function CrearCuentaUsuario() {
         }));
     };
 
-    // Generar días
     const generarDias = () => {
         const dias = [<option key="" value="">- Día -</option>];
         for (let i = 1; i <= 31; i++) {
@@ -42,7 +41,6 @@ function CrearCuentaUsuario() {
         return dias;
     };
 
-    // Generar meses
     const generarMeses = () => {
         const meses = [<option key="" value="">- Mes -</option>];
         for (let i = 1; i <= 12; i++) {
@@ -51,7 +49,6 @@ function CrearCuentaUsuario() {
         return meses;
     };
 
-    // Generar años
     const generarAnios = () => {
         const anios = [<option key="" value="">- Año -</option>];
         const currentYear = new Date().getFullYear();
@@ -61,7 +58,6 @@ function CrearCuentaUsuario() {
         return anios;
     };
 
-    // Validar fecha
     const validarFecha = () => {
         const { dia, mes, anio } = formData;
         const fecha = new Date(anio, mes - 1, dia);
@@ -69,18 +65,18 @@ function CrearCuentaUsuario() {
         const esFechaValida = (fecha.getDate() === parseInt(dia) && fecha.getMonth() === parseInt(mes) - 1 && fecha.getFullYear() === parseInt(anio));
 
         if (isNaN(anio) || isNaN(mes) || isNaN(dia) || dia === "" || mes === "" || anio === "") {
-            setErrorMessage('Por favor ingresa una fecha válida');
+            setErrorFecha('Por favor ingresa una fecha válida');
             return false;
         }
         if (!esFechaValida) {
-            setErrorMessage('Fecha no válida');
+            setErrorFecha('Fecha no válida');
             return false;
         }
         if (fecha > fechaActual) {
-            setErrorMessage('La fecha no puede ser mayor a la fecha actual');
+            setErrorFecha('La fecha no puede ser mayor a la fecha actual');
             return false;
         }
-        setErrorMessage('');
+        setErrorFecha(''); // Limpiar error de fecha si es válida
         return true;
     };
 
@@ -91,13 +87,19 @@ function CrearCuentaUsuario() {
         const fecha_nacimiento = `${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`; // Formato YYYY-MM-DD
 
         // Verificar que todos los campos estén completos
-        if (!nombre || !apellido || !nombre_usuario || !email || !dia || !mes || !anio || !contrasena || errorMessage) {
+        if (!nombre || !apellido || !nombre_usuario || !email || !dia || !mes || !anio || !contrasena) {
             setErrorMessage('Por favor, complete todos los campos correctamente.');
             return;
         }
 
         // Validar la fecha antes de enviar el formulario
         if (!validarFecha()) {
+            return;
+        }
+
+        // Verificar si se han aceptado los términos y condiciones
+        if (!isChecked) {
+            setErrorMessage('Debe aceptar los Términos y Condiciones para crear la cuenta.');
             return;
         }
 
@@ -121,8 +123,8 @@ function CrearCuentaUsuario() {
             const result = await response.json();
 
             if (result.exito) {
-                navigate('/loginUsuario');
                 setSuccessMessage('Usuario creado exitosamente');
+                navigate('/loginUsuario');
             } else {
                 setErrorMessage(result.mensaje || 'Error al crear el usuario');
             }
@@ -228,8 +230,7 @@ function CrearCuentaUsuario() {
                         {generarAnios()}
                     </select>
                 </div>
-                {/* Mostrar mensaje de error si la fecha es inválida */}
-                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                {errorFecha && <p style={{ color: 'red' }}>{errorFecha}</p>}
             </div>
 
             <div className="sub-title">
@@ -249,6 +250,8 @@ function CrearCuentaUsuario() {
                 {isChecked ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
                 <span>Aceptar Términos y Condiciones</span>          
             </div>
+
+            {errorMessage && <p style={{ color: 'red', marginTop: '10px' }}>{errorMessage}</p>}
 
             <button type="submit" className="create-btn" disabled={!isChecked}>Crear Cuenta</button>
         </form>

@@ -8,7 +8,7 @@ import Catalogo from './paginas/Catalogo.jsx';
 import PerfilUsuario from './paginas/perfil.jsx';
 import GamePage from './paginas/GamePage.jsx';
 import { Login } from '@mui/icons-material';
-import Biblioteca from './paginas/biblioteca.jsx';
+import Biblioteca from './paginas/Biblioteca.jsx';
 import Carrito from './paginas/Carrito.jsx';
 import Pagos from './paginas/Pagos.jsx';
 import Deseados from './paginas/Deseados.jsx';
@@ -80,7 +80,7 @@ const routes=[
   element: <CatalogoEmpresa/>,
 },
 {
-  path: "/gameDetail/:nombre", // Ruta para la página de detalles del juego
+  path: "/gameDetail/:id", // Ruta para la página de detalles del juego
   element: <GamePageEmpresa/>
 },
 {
@@ -88,7 +88,7 @@ const routes=[
   element: <PerfilEmpresa/>
 },
 {
-  path: "/loadGame", // Ruta para la página de detalles del juego
+  path: "/LoadGame", // Ruta para la página de detalles del juego
   element: <LoadGame/>
 },
 {

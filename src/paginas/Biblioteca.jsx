@@ -96,9 +96,10 @@ function Biblioteca() {
   // Envía la puntuación al backend
   const manejarEnvioPuntuacion = async () => {
     if (!juegoSeleccionado || puntuacionSeleccionada === null) {
-      alert('Por favor, selecciona un puntaje antes de enviar.');
+      alert('Por favor, selecciona un puntaje y un juego antes de enviar.');
       return;
     }
+
 
     try {
       // Llamar al endpoint para enviar la puntuación
@@ -184,9 +185,9 @@ function Biblioteca() {
                 onChange={manejarCambioReseña}
               ></textarea>
               <div className='review-actions'>
-                <button className='submit-review' onClick={manejarEnvioPuntuacion}><ThumbUpIcon /> Enviar Puntuación</button>
-                <button className='submit-review' onClick={manejarEnvioReseña}><ThumbUpIcon /> Enviar Reseña</button>
-                <button className='cancel-review' onClick={() => setReseña('')}><ThumbDownIcon /></button>
+                <button className='submit-review' onClick={manejarEnvioPuntuacion}> Enviar Puntuación</button>
+                <button className='submit-review' onClick={manejarEnvioReseña}> Enviar Reseña</button>
+                <button className='cancel-review' onClick={() => setReseña('')}>Cancelar</button>
               </div>
             </div>
           </div>

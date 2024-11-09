@@ -153,19 +153,23 @@ img {
 }
 
 .submit-review {
-  background: none;
+  padding: 10px 20px;
+  background-color: #267D10;
   border: none;
-  color: #267D10;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 1.5em;
+  text-decoration: none;
+  color: white;
 }
 
 .cancel-review {
-  background: none;
+  padding: 10px 20px;
+  background-color: #FB0000;
   border: none;
-  color: #FB0000;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 1.5em;
+  text-decoration: none;
+  color: white;
 }
 
 .rating-btn.selected {

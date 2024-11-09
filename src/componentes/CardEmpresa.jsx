@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import './CardEmpresa.css';
 
 // Catalogo
-function CardEmpresa({ imagen, nombre, precio }) {
+function CardEmpresa({ id, imagen, nombre, precio }) {
     return (
-        <Link to={`/gameDetail/${nombre}`} className="card-box"> 
+        <Link to={`/gameDetail/${id}`} className="card-box"> 
             <img className="game-image" src={imagen} alt={`Portada de ${nombre}`} /> 
             <h3 className="game-title">{nombre}</h3>
             <p className="game-price">${precio}</p>
