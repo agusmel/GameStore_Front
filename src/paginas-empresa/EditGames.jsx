@@ -2,10 +2,22 @@ import React, { useState, useEffect } from 'react';
 import './EditGames.css';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { juegos } from '../data/juegos.js';
+
+const fetchGameDetails = async (id) => {
+    const response = await fetch(`http://localhost:3000/api/videojuegos/juego/${id}`, {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+    });
+
+    if (!response.ok) {
+        throw new Error('Error al obtener los detalles del juego');
+    }
+    return response.json(); 
+};
 
 function EditGames() {
-    const { nombre } = useParams();
+    const { id } = useParams(); // Obtenemos el ID del juego desde la URL
     const [juego, setJuego] = useState(null);
     const [idiomas, setIdiomas] = useState([]);
     const [portada, setPortada] = useState(null);
@@ -43,29 +55,48 @@ function EditGames() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const juegoEncontrado = juegos.find((juego) => juego.nombre.toLowerCase() === nombre.toLowerCase());
-        if (juegoEncontrado) {
-            setJuego(juegoEncontrado);
-            setIdiomas(juegoEncontrado.idiomas || []);
-            setRequisitos(juegoEncontrado.requisitos || requisitos);
-            setImagenURL(juegoEncontrado.imagenGrande || juegoEncontrado.imagenAncha || null); // Configura la imagen actual
-            
-            const etiquetasActualizadas = etiquetas.map((etiqueta) => ({...etiqueta, checked: juegoEncontrado.etiquetas?.includes(etiqueta.nombre),}));
-            setEtiquetas(etiquetasActualizadas);
-            
-            const caracteristicasActualizadas = caracteristicas.map((caracteristica) => ({...caracteristica, checked: juegoEncontrado.caracteristicas?.includes(caracteristica.nombre), }));
-            setCaracteristicas(caracteristicasActualizadas);
-        } else {
-            console.error("Juego no encontrado");
-            navigate("/catalogoEmpresa");
-        }
-    }, [nombre, navigate]);
+        const getGameDetails = async () => {
+            try {
+                const gameDatas = await fetchGameDetails(id); 
+                const gameData = gameDatas[0]; // Obtenemos los detalles del juego usando el ID
+                   console.log(gameData);
+
+                if (gameData) {
+                    setJuego(gameData);
+                    setIdiomas(gameData.idiomas || []);
+                    setRequisitos(gameData.requisitos || requisitos);
+                    setImagenURL( gameData.imagen_grande  || null);
+
+                    // Actualizamos etiquetas y características en función de los datos recibidos
+                    const etiquetasActualizadas = etiquetas.map((etiqueta) => ({
+                        ...etiqueta,
+                        checked: gameData.etiquetas?.includes(etiqueta.nombre),
+                    }));
+                    setEtiquetas(etiquetasActualizadas);
+
+                    const caracteristicasActualizadas = caracteristicas.map((caracteristica) => ({
+                        ...caracteristica,
+                        checked: gameData.caracteristicas?.includes(caracteristica.nombre),
+                    }));
+                    setCaracteristicas(caracteristicasActualizadas);
+                } else {
+                    console.error("Juego no encontrado");
+                    navigate("/catalogoEmpresa");
+                }
+            } catch (error) {
+                console.error("Error al obtener los detalles del juego:", error);
+                navigate("/catalogoEmpresa");
+            }
+        };
+
+        getGameDetails();
+    }, [id, navigate]);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
             setPortada(file);
-            setImagenURL(URL.createObjectURL(file)); // Configura la URL para vista previa
+            setImagenURL(URL.createObjectURL(file)); // Vista previa de la portada
         }
     };
 
@@ -90,12 +121,21 @@ function EditGames() {
     };
 
     const handleRequisitoChange = (tipo, campo, value) => {
-        setRequisitos((prevRequisitos) => ({...prevRequisitos,[selectedOS]: {...prevRequisitos[selectedOS],[tipo]: {...prevRequisitos[selectedOS][tipo],[campo]: value,}}}));
+        setRequisitos((prevRequisitos) => ({
+            ...prevRequisitos,
+            [selectedOS]: {
+                ...prevRequisitos[selectedOS],
+                [tipo]: {
+                    ...prevRequisitos[selectedOS][tipo],
+                    [campo]: value,
+                },
+            },
+        }));
     };
 
     const handleInputChange = (e, field) => {
         const { value } = e.target;
-        setJuego((prevJuego) => ({...prevJuego,[field]: value,}));
+        setJuego((prevJuego) => ({ ...prevJuego, [field]: value }));
     };
 
     const handleEtiquetaChange = (index) => {
@@ -119,7 +159,7 @@ function EditGames() {
                     ) : (
                         <div className="icono-portada">
                             <PhotoCameraIcon />
-                            <span>Portada</span>
+                            
                         </div>
                     )}
                 </label>
@@ -131,7 +171,7 @@ function EditGames() {
                 <input placeholder="Precio" className="input-precio" value={juego?.precio || ""} onChange={(e) => handleInputChange(e, 'precio')} />
             </div>
 
-            <textarea placeholder="Descripción del juego" className="textarea-descripcion" value={juego?.descrpcionJuego || ""} onChange={(e) => handleInputChange(e, 'descrpcionJuego')} />
+            <textarea placeholder="Descripción del juego" className="textarea-descripcion" value={juego?.descripcion_juego || ""} onChange={(e) => handleInputChange(e, 'descrpcionJuego')} />
 
             <div className="etiquetas">
                 <h4>Etiquetas</h4>

@@ -1,11 +1,12 @@
 import './GamePageEmpresa.css';
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate,Link } from 'react-router-dom'; // Añadimos useNavigate para redirigir después de la eliminación
 import BarraNavegacionEmpresa from '../componentes/BarraNavegacionEmpresa.jsx';
 
 function GamePageEmpresa() {
     const { id } = useParams(); // Obtenemos el 'id' del juego de la URL
     const [juego, setJuego] = useState(null); // Estado para almacenar los datos del juego
+    const navigate = useNavigate(); // Hook de navegación para redirigir después de la eliminación
 
     // useEffect para cargar los datos
     useEffect(() => {
@@ -41,11 +42,36 @@ function GamePageEmpresa() {
         setTextoDespausarPublicacion((prevTexto) => (prevTexto === "Pausar publicacion" ? "Despausar publicacion" : "Pausar publicacion"));
     };
 
+    // Función para eliminar el juego
+    const eliminarJuego = async () => {
+        const confirmation = window.confirm('¿Estás seguro de que deseas eliminar este juego?');
+        if (confirmation) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/videojuegos/delete/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                });
+
+                if (response.ok) {
+                    alert('Juego eliminado con éxito');
+                    navigate('/catalogoEmpresa'); // Redirigimos a una página después de la eliminación, por ejemplo, a la página de administración
+                } else {
+                    alert('No se pudo eliminar el juego');
+                }
+            } catch (error) {
+                console.error('Error al eliminar el juego:', error);
+                alert('Hubo un error al intentar eliminar el juego');
+            }
+        }
+    };
+
     if (!juego) {
         return null; // Si no hay datos de juego, no renderizamos nada
     }
 
-    console.log(juego);
     return (
         <>
             <BarraNavegacionEmpresa />
@@ -59,7 +85,7 @@ function GamePageEmpresa() {
                     <button onClick={cambiarTextoBoton} className="pausar-boton">
                         {textoPausarPublicacion}
                     </button>
-                    <button className="eliminar-boton">Eliminar</button>
+                    <button onClick={eliminarJuego} className="eliminar-boton">Eliminar</button>
                 </div>
 
                 <div className="contenedor-superior">
