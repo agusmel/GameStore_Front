@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './LoadGame.css';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function FormularioJuego() {
-    const [idiomas, setIdiomas] = useState([]);  // Estado para almacenar la lista de idiomas disponibles
+    const [idiomas, setIdiomas] = useState([]);
     const [portada, setPortada] = useState(null);
+    const [imagenURL, setImagenURL] = useState(null);
+    const [nombre, setNombre] = useState("");
+    const [precio, setPrecio] = useState("");
+    const [descripcion, setDescripcion] = useState("");
+    const [etiquetas, setEtiquetas] = useState([]);
+    const [caracteristicas, setCaracteristicas] = useState([]);
     const [selectedOS, setSelectedOS] = useState("Windows");
     const [requisitos, setRequisitos] = useState({
         Windows: { minimos: {}, recomendados: {} },
@@ -14,32 +20,46 @@ function FormularioJuego() {
     });
 
     const handleFileChange = (event) => {
-        setPortada(event.target.files[0]);
+        const file = event.target.files[0];
+        setPortada(file);
+        setImagenURL(URL.createObjectURL(file));
     };
 
     const handleOSChange = (os) => {
         setSelectedOS(os);
     };
 
-
     const handleAgregarIdioma = () => {
         setIdiomas([...idiomas, { nombre: "", interfaz: false, audio: false, subtitulos: false }]);
-        // Agrega un nuevo idioma con campos vacíos e inicia los valores de interfaz, audio y subtítulos en false
     };
 
     const handleIdiomaNombreChange = (index, value) => {
         const newIdiomas = [...idiomas];
-        newIdiomas[index].nombre = value;  // Cambia el nombre del idioma en el índice correspondiente
+        newIdiomas[index].nombre = value;
         setIdiomas(newIdiomas);
     };
 
     const handleIdiomaChange = (index, field) => {
         const newIdiomas = [...idiomas];
-        newIdiomas[index][field] = !newIdiomas[index][field];  // Cambia el estado de interfaz, audio o subtítulos para un idioma
+        newIdiomas[index][field] = !newIdiomas[index][field];
         setIdiomas(newIdiomas);
     };
 
+    const handleEtiquetaChange = (etiqueta) => {
+        setEtiquetas(prev =>
+            prev.includes(etiqueta)
+                ? prev.filter(e => e !== etiqueta)
+                : [...prev, etiqueta]
+        );
+    };
 
+    const handleCaracteristicaChange = (caracteristica) => {
+        setCaracteristicas(prev =>
+            prev.includes(caracteristica)
+                ? prev.filter(c => c !== caracteristica)
+                : [...prev, caracteristica]
+        );
+    };
 
     const handleRequisitoChange = (tipo, campo, value) => {
         setRequisitos((prevRequisitos) => ({
@@ -54,34 +74,50 @@ function FormularioJuego() {
         }));
     };
 
+    const isFormValid = () => {
+        const hasPortada = !!portada;
+        const hasNombre = nombre.trim() !== "";
+        const hasPrecio = precio.trim() !== "";
+        const hasDescripcion = descripcion.trim() !== "";
+        const hasEtiqueta = etiquetas.length > 0;
+        const hasCaracteristica = caracteristicas.length > 0;
+        const hasIdioma = idiomas.some(idioma => idioma.nombre);
+        
+        const hasRequisitosMinimos = Object.values(requisitos[selectedOS].minimos).every(val => val && val.trim() !== "");
+        const hasRequisitosRecomendados = Object.values(requisitos[selectedOS].recomendados).every(val => val && val.trim() !== "");
+
+        return hasPortada && hasNombre && hasPrecio && hasDescripcion && hasEtiqueta && hasCaracteristica && hasIdioma && hasRequisitosMinimos && hasRequisitosRecomendados;
+    };
+
     return (
         <div className="formulario-juego">
             <div className="portada">
                 <label htmlFor="portada-input" className="portada-label">
-                    <div className="icono-portada"><PhotoCameraIcon /></div>
-                    <span>Portada</span>
+                    {imagenURL ? (
+                        <img src={imagenURL} alt="Portada" className="preview-imagen" />
+                    ) : (
+                        <div className="icono-portada">
+                            <PhotoCameraIcon />
+                            
+                        </div>
+                    )}
                 </label>
                 <input id="portada-input" type="file" onChange={handleFileChange} hidden />
             </div>
             <div className="campos-superiores">
-                <input type="text" placeholder="Nombre del juego" className="input-nombre" />
-                <input placeholder="Precio" className="input-precio" />
+                <input type="text" placeholder="Nombre del juego" className="input-nombre" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                <input placeholder="Precio" className="input-precio" value={precio} onChange={(e) => setPrecio(e.target.value)} />
             </div>
-            <textarea placeholder="Descripción del juego" className="textarea-descripcion"></textarea>
-
+            <textarea placeholder="Descripción del juego" className="textarea-descripcion" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
 
             <div className="etiquetas">
                 <h4>Etiquetas</h4>
-                    <label><input type="checkbox" /> FPS</label>
-                    <label><input type="checkbox" /> Survival</label>
-                    <label><input type="checkbox" /> Battle royale</label>
-                    <label><input type="checkbox" /> Mundo abierto</label>
-                    <label><input type="checkbox" /> Fantasia</label>
-                    <label><input type="checkbox" /> RPG</label>
-
+                {["FPS", "Survival", "Battle royale", "Mundo abierto", "Fantasía", "RPG"].map(etiqueta => (
+                    <label key={etiqueta}>
+                        <input type="checkbox" checked={etiquetas.includes(etiqueta)} onChange={() => handleEtiquetaChange(etiqueta)} /> {etiqueta}
+                    </label>
+                ))}
             </div>
-
-
 
             <div className="os-selector">
                 <button className={selectedOS === "Windows" ? "active" : ""} onClick={() => handleOSChange("Windows")}>Windows</button>
@@ -107,38 +143,36 @@ function FormularioJuego() {
                     <input placeholder="Almacenamiento:" value={requisitos[selectedOS].recomendados.almacenamiento || ""} onChange={(e) => handleRequisitoChange("recomendados", "almacenamiento", e.target.value)} />
                 </div>
             </div>
-            
+
             <div className="opciones">
                 <div className="caract">
                     <h4>Características</h4>
-                    <label><input type="checkbox" /> Un jugador</label>
-                    <label><input type="checkbox" /> Cooperativo online</label>
-                    <label><input type="checkbox" /> Compatible con mando</label>
-                    <label><input type="checkbox" /> Multijugador en linea</label>
-                    <label><input type="checkbox" /> Compatible con volante</label>
-                    <label><input type="checkbox" /> Tienda de mods</label>
-                    <label><input type="checkbox" /> Requiere conexión a Internet </label>
-                    <label><input type="checkbox" /> Modo VR</label>
-                    <label><input type="checkbox" /> Contenido adicional descargable</label>
+                    {["Un jugador", "Cooperativo online", "Compatible con mando", "Multijugador en línea", "Compatible con volante", "Tienda de mods", "Requiere conexión a Internet", "Modo VR", "Contenido adicional descargable"].map(caracteristica => (
+                        <label key={caracteristica}>
+                            <input type="checkbox" checked={caracteristicas.includes(caracteristica)} onChange={() => handleCaracteristicaChange(caracteristica)} /> {caracteristica}
+                        </label>
+                    ))}
                 </div>
 
                 <div className="lenguajes">
                     <h4>Idiomas Disponibles</h4>
                     {idiomas.map((idioma, index) => (
                         <div key={index} className="idioma">
-                            <input type="text" placeholder="Idioma" value={idioma.nombre} onChange={(e) => handleIdiomaNombreChange(index, e.target.value)} className="input-idioma"/> 
-                            <label><input type="checkbox" checked={idioma.interfaz} onChange={() => handleIdiomaChange(index, 'interfaz')}/>Interfaz</label>
-                            <label><input type="checkbox" checked={idioma.audio} onChange={() => handleIdiomaChange(index, 'audio')}/>Audio </label>
-                            <label><input type="checkbox"checked={idioma.subtitulos} onChange={() => handleIdiomaChange(index, 'subtitulos')}/>Subtítulos</label>
+                            <input type="text" placeholder="Idioma" value={idioma.nombre} onChange={(e) => handleIdiomaNombreChange(index, e.target.value)} className="input-idioma" />
+                            <label><input type="checkbox" checked={idioma.interfaz} onChange={() => handleIdiomaChange(index, 'interfaz')} /> Interfaz</label>
+                            <label><input type="checkbox" checked={idioma.audio} onChange={() => handleIdiomaChange(index, 'audio')} /> Audio</label>
+                            <label><input type="checkbox" checked={idioma.subtitulos} onChange={() => handleIdiomaChange(index, 'subtitulos')} /> Subtítulos</label>
                         </div>
                     ))}
-                    <button onClick={handleAgregarIdioma}>Agregar Idioma</button>  
+                    <button onClick={handleAgregarIdioma}>Agregar Idioma</button>
                 </div>
             </div>
 
             <div className="button">
                 <Link className="button-cancelar" to="/catalogoEmpresa">Cancelar</Link>
-                <Link className="button-cargar" to="/catalogoEmpresa">Cargar</Link>
+                <Link className={`button-cargar ${isFormValid() ? '' : 'disabled'}`} to="/catalogoEmpresa" onClick={(e) => !isFormValid() && e.preventDefault()}>
+                    Cargar
+                </Link>
             </div>
         </div>
     );

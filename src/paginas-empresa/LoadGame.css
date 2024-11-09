@@ -180,9 +180,12 @@
     cursor: pointer;
     text-decoration: none;
     color: white;
+    font-size: 1em;
+
 }
 
 .button-cargar {
+    font-size: 1em;
     padding: 10px 20px;
     background-color: #267D10;
     border: none;
