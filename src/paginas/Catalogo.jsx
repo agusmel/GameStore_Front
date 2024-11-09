@@ -2,18 +2,17 @@ import './Catalogo.css';
 import { Card, CardGrande } from '../componentes/Card.jsx';
 import React, { useEffect, useRef, useState } from 'react';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIos';
 import BarraNavegacion from '../componentes/barraNavegacion.jsx';
 import { useParams } from 'react-router-dom';
 
 function Catalogo() {
   const listRef = useRef();
-  const { categorias } = useParams(); // Captura la categoría desde la URL
+  const { categorias } = useParams(); 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [juegos, setJuegos] = useState([]);
   const [juegosDest, setJuegosDest] = useState([]);
 
-  // Función para obtener el catálogo de videojuegos
   const obtenerVideojuegosCatalogo = async () => {
     try {
       const response1 = await fetch("http://localhost:3000/api/videojuegos/catalogo", {
@@ -29,7 +28,6 @@ function Catalogo() {
     }
   };
 
-  // Función para obtener los videojuegos destacados del carrusel
   const obtenerVideojuegosCarrusel = async () => {
     try {
       const response2 = await fetch("http://localhost:3000/api/videojuegos/carrusel", {
@@ -45,7 +43,6 @@ function Catalogo() {
     }
   };
 
-  // useEffect para cargar los datos al montar el componente
   useEffect(() => {
     const cargarVideojuegos = async () => {
       try {
@@ -61,12 +58,16 @@ function Catalogo() {
     cargarVideojuegos();
   }, []);
 
-  // Filtrar juegos según la categoría en la URL
-  const juegosFiltradosPorEtiqueta = categorias
+  const esRangoPrecio = categorias && /^\d+\-\d+$/.test(categorias);
+  const rango = esRangoPrecio ? categorias.split('-').map(parseFloat) : [];
+  
+  console.log("Es un rango de precio:", esRangoPrecio);
+  console.log("Rango:", rango[0], rango[1]);
+
+  const juegosFiltradosPorEtiqueta = !esRangoPrecio && categorias
     ? juegos.filter((juego) => juego.etiquetas && juego.etiquetas.includes(categorias))
     : juegos;
 
-  // Si no hay resultados con etiquetas, filtrar por características
   const juegosFiltradosPorCaracteristica = juegosFiltradosPorEtiqueta.length > 0
     ? juegosFiltradosPorEtiqueta
     : juegos.filter((juego) => 
@@ -74,7 +75,6 @@ function Catalogo() {
         juego.caracteristicas.includes(categorias)
       );
 
-  // Si no hay resultados por etiquetas ni características, filtrar por idiomas
   const juegosFiltradosPorIdioma = juegosFiltradosPorCaracteristica.length > 0
     ? juegosFiltradosPorCaracteristica
     : juegos.filter((juego) => 
@@ -82,7 +82,6 @@ function Catalogo() {
         juego.idiomas.some((idioma) => idioma.idioma === categorias)
       );
 
-  // Si no hay resultados por etiquetas, características ni idiomas, filtrar por requisitos
   const juegosFiltrados = juegosFiltradosPorIdioma.length > 0
     ? juegosFiltradosPorIdioma
     : juegos.filter((juego) => 
@@ -92,6 +91,21 @@ function Catalogo() {
           (categorias === 'mac' && (juego.requisitos.mac?.minimos || juego.requisitos.mac?.recomendados))
         )
       );
+
+  console.log("Juegos filtrados antes de aplicar el filtro de precio:", juegosFiltrados);
+
+  // Aplica el filtro de precios si es un rango de precio, independientemente de los filtros anteriores
+  const juegosFiltradosPorPrecio = esRangoPrecio
+    ? juegos.filter((juego) => {
+        const precio = parseFloat(juego.precio);
+        console.log("Precio del juego:", precio);
+        console.log("Rango esperado:", rango[0], rango[1]);
+
+        return precio >= rango[0] && precio <= rango[1];
+      })
+    : juegosFiltrados;
+
+  console.log("Juegos después de aplicar el filtro de precio:", juegosFiltradosPorPrecio);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % juegosDest.length);
@@ -110,9 +124,7 @@ function Catalogo() {
       });
     }
   }, [currentIndex]);
-
-  console.log(categorias);
-
+  
   return (
     <>
       <BarraNavegacion />
@@ -132,10 +144,15 @@ function Catalogo() {
             <ArrowForwardIosIcon />
           </button>
         </div>
+        
         <div className='box-juegos'>
-          {juegosFiltrados.map((juego, index) => (
-            <Card key={juego.id || index} id={juego.id} imagen={juego.imagen_chica} nombre={juego.nombre} precio={juego.precio} />
-          ))}
+          {juegosFiltradosPorPrecio.length > 0 ? (
+            juegosFiltradosPorPrecio.map((juego, index) => (
+              <Card key={juego.id || index} id={juego.id} imagen={juego.imagen_chica} nombre={juego.nombre} precio={juego.precio} />
+            ))
+          ) : (
+            <p>no se encontraron resultados</p>
+          )}
         </div>
       </div>
     </>
