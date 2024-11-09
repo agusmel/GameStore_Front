@@ -94,7 +94,7 @@ function CrearCuentaEmpresa() {
             </div>
 
             <div className="login">
-                <h1>Crear Cuenta Empresa</h1>
+                <h1>Crear Cuenta</h1>
             </div>
 
             <form className="datos" onSubmit={handleSubmit}>
