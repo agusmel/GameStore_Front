@@ -131,6 +131,8 @@ function CrearCuentaEmpresa() {
                         name="nro_telefono"
                         value={formData.nro_telefono}
                         onChange={handleChange}
+                        maxLength={9} // Limita la cantidad máxima de caracteres a 9
+
                     />
                 </div>
 

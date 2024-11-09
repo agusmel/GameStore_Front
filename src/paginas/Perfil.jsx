@@ -7,13 +7,6 @@ const PerfilUsuario = () => {
     const [loading, setLoading] = useState(true); // Para manejar el estado de carga
     const [error, setError] = useState(null); // Para manejar errores
 
-    // Estados para los campos del formulario
-    const [nombre, setNombre] = useState('');
-    const [apellido, setApellido] = useState('');
-    const [nacimiento, setNacimiento] = useState('');
-    const [usuario, setUsuario] = useState('');
-    const [email, setEmail] = useState('');
-
     useEffect(() => {
         const fetchUserData = async () => {
             try {
@@ -30,13 +23,6 @@ const PerfilUsuario = () => {
 
                     if (data.exito) {
                         setPerfil(data.usuario); // Actualizamos el estado con los datos del perfil
-
-                        // Establecemos los valores del formulario a partir de los datos del usuario
-                        setNombre(data.usuario.nombre);
-                        setApellido(data.usuario.apellido);
-                        setNacimiento(data.usuario.fecha_nacimiento); // Asegúrate de que el backend envíe el formato correcto
-                        setUsuario(data.usuario.nombre_usuario);
-                        setEmail(data.usuario.email);
                     } else {
                         setError('Error al obtener los datos del usuario');
                     }
@@ -49,6 +35,7 @@ const PerfilUsuario = () => {
                 setLoading(false); // Ya no estamos cargando
             }
         };
+        
 
         fetchUserData();
     }, []); // El array vacío asegura que solo se ejecute una vez al cargar el componente
@@ -79,32 +66,6 @@ const PerfilUsuario = () => {
         return anios;
     };
 
-    const validarFecha = () => {
-        const dia = parseInt(document.getElementById('dia').value);
-        const mes = parseInt(document.getElementById('mes').value) - 1; // Enero es 0 en JavaScript
-        const anio = parseInt(document.getElementById('anio').value);
-
-        const fecha = new Date(anio, mes, dia);
-        const fechaActual = new Date(); 
-
-         const esFechaValida = (fecha.getDate() === dia && fecha.getMonth() === mes && fecha.getFullYear() === anio);
-
-        if (isNaN(anio) || isNaN(mes) || isNaN(dia) || dia === 0 || mes === -1 || anio === 0) {
-            setErrorMessage('');
-            return;
-        }
-        if (!esFechaValida) {
-            setErrorMessage('Fecha no válida');
-            return;
-        }
-        if (fecha > fechaActual) {
-            setErrorMessage('La fecha no puede ser mayor a la fecha actual');
-        } else {
-            setErrorMessage('');
-        }
-    };
-
-
     if (loading) {
         return <p>Cargando...</p>; // Muestra "Cargando..." mientras esperamos los datos
     }
@@ -118,7 +79,6 @@ const PerfilUsuario = () => {
             <BarraNavegacion />
             <main>
                 <div className="perfil">
-                    {/* Asegúrate de que 'perfil' no sea nulo antes de acceder a las propiedades */}
                     {perfil && (
                         <>
                             <h1>{perfil.nombre_usuario}</h1>
@@ -128,8 +88,8 @@ const PerfilUsuario = () => {
                                     <input
                                         type="text"
                                         id="nombre"
-                                        value={nombre}
-                                        onChange={(e) => setNombre(e.target.value)} // Habilitar la edición
+                                        value={perfil.nombre}
+                                        disabled
                                     />
                                 </div>
 
@@ -138,20 +98,20 @@ const PerfilUsuario = () => {
                                     <input
                                         type="text"
                                         id="apellido"
-                                        value={apellido}
-                                        onChange={(e) => setApellido(e.target.value)} // Habilitar la edición
+                                        value={perfil.apellido}
+                                        disabled
                                     />
                                 </div>
 
                                 <div className="campo-nacimiento">
                                     <label htmlFor="nacimiento">Fecha de Nacimiento</label>
-                                    <select id="dia" value={nacimiento} onChange={validarFecha}>
+                                    <select id="dia" value={new Date(perfil.fecha_nacimiento).getDate()} disabled>
                                         {generarDias()}
                                     </select>
-                                    <select id="mes" value={nacimiento} onChange={validarFecha}>
+                                    <select id="mes" value={new Date(perfil.fecha_nacimiento).getMonth() + 1} disabled>
                                         {generarMeses()}
                                     </select>
-                                    <select id="anio" value={nacimiento} onChange={validarFecha}>
+                                    <select id="anio" value={new Date(perfil.fecha_nacimiento).getFullYear()} disabled>
                                         {generarAnios()}
                                     </select>
                                 </div>
@@ -161,8 +121,8 @@ const PerfilUsuario = () => {
                                     <input
                                         type="text"
                                         id="usuario"
-                                        value={usuario}
-                                        onChange={(e) => setUsuario(e.target.value)} // Habilitar la edición
+                                        value={perfil.nombre_usuario}
+                                        disabled
                                     />
                                 </div>
 
@@ -171,8 +131,8 @@ const PerfilUsuario = () => {
                                     <input
                                         type="email"
                                         id="mail"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)} // Habilitar la edición
+                                        value={perfil.email}
+                                        disabled
                                     />
                                 </div>
                             </form>

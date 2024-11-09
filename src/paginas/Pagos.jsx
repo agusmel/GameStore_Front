@@ -183,11 +183,7 @@ function Pagos() {
                 </div>
 
                 <div className="botones">
-                    <button 
-                        className="boton1" 
-                        type="button" 
-                        onClick={confirmarPago}
-                    >
+                    <button className="boton1" type="button"onClick={confirmarPago} >
                         Pagar
                     </button>
                     <button className="boton2">
