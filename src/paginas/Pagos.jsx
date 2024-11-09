@@ -1,7 +1,8 @@
 import './Pagos.css';
-import { Link, useNavigate } from 'react-router-dom';  // Importar useNavigate
+import { Link, useNavigate } from 'react-router-dom'; // Importar useNavigate
 import React, { useState, useEffect } from 'react';
 import BarraNavegacion from '../componentes/barraNavegacion.jsx';
+import Cookies from 'js-cookie'; // Importar js-cookie
 
 // Función para obtener el carrito con cookies incluidas
 const fetchProductosCarrito = async () => {
@@ -9,7 +10,7 @@ const fetchProductosCarrito = async () => {
         const response = await fetch('http://localhost:3000/api/carrito', {
             method: "GET",
             headers: { "Content-Type": "application/json" },
-            credentials: "include",  // Incluye cookies (como la sesión)
+            credentials: "include", // Incluye cookies (como la sesión)
         });
 
         if (!response.ok) {
@@ -24,10 +25,12 @@ const fetchProductosCarrito = async () => {
 };
 
 function Pagos() {
-    const navigate = useNavigate();  // Usar useNavigate aquí
+    const navigate = useNavigate(); // Usar useNavigate aquí
     const [errorMessage, setErrorMessage] = useState('');
-    const [carrito, setCarrito] = useState([]);  // Estado para el carrito
-    const [loading, setLoading] = useState(true);  // Estado de carga
+    const [carrito, setCarrito] = useState([]); // Estado para el carrito
+    const [loading, setLoading] = useState(true); // Estado de carga
+    const [mes, setMes] = useState(''); // Estado para el mes
+    const [anio, setAnio] = useState(''); // Estado para el año
 
     // Llenar opciones de mes
     const generarMeses = () => {
@@ -49,27 +52,16 @@ function Pagos() {
 
     // Validar la fecha
     const validarFecha = () => {
-        const mes = parseInt(document.getElementById('mes').value);
-        const anio = parseInt(document.getElementById('anio').value);
         const fechaActual = new Date();
         const anioActual = fechaActual.getFullYear();
         const mesActual = fechaActual.getMonth() + 1;
 
-        if (isNaN(anio) || isNaN(mes) || mes === 0 || anio === 0) {
-            setErrorMessage('');
-            return;
-        }
-
-        if (anio > anioActual) {
-            setErrorMessage('');
-        } else if (anio === anioActual) {
-            if (mes <= mesActual) {
+        if (mes && anio) {
+            if (anio < anioActual || (anio === anioActual && mes <= mesActual)) {
                 setErrorMessage('Fecha de vencimiento inválida.');
             } else {
                 setErrorMessage('');
             }
-        } else {
-            setErrorMessage('Fecha de vencimiento inválida.');
         }
     };
 
@@ -77,9 +69,8 @@ function Pagos() {
     useEffect(() => {
         const obtenerCarrito = async () => {
             const productos = await fetchProductosCarrito();
-            console.log(productos);
-            setCarrito(productos);  // Actualizar el estado con los productos del carrito
-            setLoading(false);  // Cambiar el estado de carga a false una vez que se haya obtenido el carrito
+            setCarrito(productos); // Actualizar el estado con los productos del carrito
+            setLoading(false); // Cambiar el estado de carga a false una vez que se haya obtenido el carrito
         };
 
         obtenerCarrito();
@@ -94,8 +85,7 @@ function Pagos() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    carrito: carrito,  // El carrito con los productos seleccionados
-                    email: 'juan.perez@gmail.com',  // El email del usuario actual
+                    carrito: carrito, // El carrito con los productos seleccionados
                 }),
                 credentials:'include',
             });
@@ -103,14 +93,33 @@ function Pagos() {
             if (response.ok) {
                 const data = await response.json();
                 console.log('Carrito insertado:', data.mensaje);
-                navigate('/biblioteca'); // Redirigimos a la página de biblioteca
+                
+                // Vaciar el carrito después de confirmar el pago
+                const vaciarCarritoResponse = await fetch('http://localhost:3000/api/carrito/vaciar', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({}), // No necesitamos enviar email
+                    credentials: 'include',
+                });
 
+                if (vaciarCarritoResponse.ok) {
+                    const vaciarCarritoData = await vaciarCarritoResponse.json();
+                    console.log(vaciarCarritoData.message || vaciarCarritoData.mensaje); // Mostrar mensaje de éxito
+                    alert('Pago realizado con éxito, el carrito ha sido vaciado.');
+                    navigate('/biblioteca'); // Redirigimos a la página de biblioteca
+                } else {
+                    const errorData = await vaciarCarritoResponse.json();
+                    setErrorMessage('Error al vaciar el carrito: ' + (errorData.error || 'Error desconocido'));
+                }
             } else {
                 const errorData = await response.json();
-                console.error('Error:', errorData.error);
+                setErrorMessage('Error al insertar el carrito: ' + (errorData.error || 'Error desconocido'));
             }
         } catch (error) {
             console.error('Error en la solicitud:', error);
+            setErrorMessage('Hubo un error al procesar el pago. Inténtalo nuevamente.');
         }
     };
 
@@ -124,12 +133,12 @@ function Pagos() {
                         <input type="text" id="numero de tarjeta" maxLength="16" />
                     </div>
 
-                    <div className="campo-vencimiento">                       
+                    <div className="campo-vencimiento">
                         <label htmlFor="vencimiento">Fecha de vencimiento</label>
-                        <select id="mes" onChange={validarFecha}>
+                        <select id="mes" value={mes} onChange={(e) => setMes(e.target.value)} onBlur={validarFecha}>
                             {generarMeses()}
                         </select>
-                        <select id="anio" onChange={validarFecha}>
+                        <select id="anio" value={anio} onChange={(e) => setAnio(e.target.value)} onBlur={validarFecha}>
                             {generarAnios()}
                         </select>
                         <input type="text" id="cvv" maxLength="3" pattern="\d{3}" placeholder="CVV" />
@@ -140,7 +149,7 @@ function Pagos() {
 
                 <h1>Información de facturación</h1>
 
-
+   
                 <div className="nomb-apellido">
                     <div className="nombre">
                         <label htmlFor="nombre">Nombre</label>
@@ -181,15 +190,8 @@ function Pagos() {
                         <input type="text" id="telefono" />
                     </div>
                 </div>
-
-                <div className="botones">
-                    <button className="boton1" type="button"onClick={confirmarPago} >
-                        Pagar
-                    </button>
-                    <button className="boton2">
-                        <Link to="/tienda">Cancelar</Link>
-                    </button>
-                </div>
+                <button className="boton2"><Link to="/tienda">Cancelar</Link></button>
+                <button type="button" className="boton1" onClick={confirmarPago}>pagar </button>
             </form>
         </>
     );
