@@ -186,12 +186,18 @@ function GamePage() {
                         <div className="opiniones-container">
                             <h2>Opiniones</h2>
                             <div className="opiniones">
-                                {juego.opiniones?.map((opinion, index) => (
-                                    <div key={index} className="opinion">
-                                        <p className={obtenerClaseCalificacion(opinion.calificacion)}>Calificación: {opinion.calificacion}</p>
-                                        <p>{opinion.texto}</p>
-                                    </div>
-                                ))}
+                                {juego.reseñas_puntajes
+                                    .filter(opinion => opinion.reseña !== null || opinion.puntaje !== null) // Filtra reseñas válidas
+                                    .map((opinion, index) => (
+                                        <div key={index} className="opinion">
+                                            {opinion.puntaje && (
+                                                <p className={obtenerClaseCalificacion(opinion.puntaje)}>
+                                                    Calificación: {opinion.puntaje}
+                                                </p>
+                                            )}
+                                            {opinion.reseña && <p>{opinion.reseña}</p>}
+                                        </div>
+                                    ))}
                             </div>
                         </div>
                     </div>
