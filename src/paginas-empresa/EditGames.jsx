@@ -233,8 +233,8 @@ const EditGames = () => {
         {formError && <div className="form-error">{formError}</div>}
 
         <div className="button-group">
-          <button type="submit" className="save-btn">Guardar Cambios</button>
           <Link to="/catalogoEmpresa" className="cancel-btn">Cancelar</Link>
+          <button type="submit" className="save-btn">Guardar Cambios</button>
         </div>
       </form>
     </div>
