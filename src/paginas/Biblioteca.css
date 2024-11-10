@@ -43,6 +43,8 @@
 .games-list {
   list-style: none;
   padding: 0;
+  overflow-y: auto; /* Activa solo el scroll vertical */
+
 }
 
 .game-item {

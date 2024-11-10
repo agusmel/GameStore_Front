@@ -107,6 +107,8 @@ function GamePage() {
         }
     };
 
+    console.log(juego);
+
     return (
         <>
             <BarraNavegacion />
@@ -196,10 +198,9 @@ function GamePage() {
 
                     <div className="der">
                         <div className="detalles-adicionales"> 
-                            <div className="etiquetas">
+                            <div className="etiquetasss">
                                 <h2>Etiquetas</h2>
                                 <ul>
-                                
                                 {juego.etiquetas?.map((etiqueta, index) => (
                                     <li key={index}>{etiqueta}</li>
                                 ))}

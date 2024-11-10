@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 
 // Función para enviar el formulario de inicio de sesión
-export const sendLoginForm = async (credentials) => {
+const sendLoginForm = async (credentials) => {
     try {
         const response = await fetch("http://localhost:3000/api/empresa/login", {
             method: "POST",
@@ -70,7 +70,7 @@ const LoginEmpresa = () => {
                 </div>
 
                 <div className="sub-title">
-                    Contraseña (entre 10 y 15 caracteres)
+                    Contraseña
                     <label htmlFor="contrasena"></label>
                     <input 
                         type="password" 
@@ -83,7 +83,6 @@ const LoginEmpresa = () => {
                 </div>
 
                 <div className="olv-empre">
-                    <button className='boton-olvide'>Olvide contraseña</button>
                     <button className='boton-registrar-empresa'><Link to="/registrarEmpresa">Registrar empresa</Link></button>           
                 </div>
                 <button type="submit" className="login-btn">Iniciar sesión</button>

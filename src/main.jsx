@@ -21,6 +21,7 @@ import GamePageEmpresa from './paginas-empresa/GamePageEmpresa.jsx';
 import PerfilEmpresa from './paginas-empresa/PerfilEmpresa.jsx';
 import LoadGame from './paginas-empresa/LoadGame.jsx';
 import EditGames from './paginas-empresa/EditGames.jsx';
+import RecuperarContraseña from './paginas/RecuperarContraseña.jsx';
 
 const routes=[
   {
@@ -95,6 +96,10 @@ const routes=[
   path: "/editGames/:id", // Ruta para la página de detalles del juego
   element: <EditGames/>
 },
+{
+  path: "/recuperarContraseña", // Ruta para la página de detalles del juego
+  element: <RecuperarContraseña/>
+}
 
   
 ]

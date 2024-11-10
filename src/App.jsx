@@ -16,6 +16,7 @@ import GamePageEmpresa from './paginas-empresa/GamePageEmpresa.jsx';
 import PerfilEmpresa from './paginas-empresa/PerfilEmpresa.jsx';
 import LoadGame from './paginas-empresa/LoadGame.jsx';
 import EditGames from './paginas-empresa/EditGames.jsx';
+import RecuperarContraseñas from './paginas/RecuperarContraseña.jsx';
 function App() {
  
 

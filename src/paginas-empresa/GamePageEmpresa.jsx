@@ -38,9 +38,7 @@ function GamePageEmpresa() {
     // Función para alternar el texto del botón
     const [textoPausarPublicacion, setTextoDespausarPublicacion] = useState("Pausar publicacion");
 
-    const cambiarTextoBoton = () => {
-        setTextoDespausarPublicacion((prevTexto) => (prevTexto === "Pausar publicacion" ? "Despausar publicacion" : "Pausar publicacion"));
-    };
+   
 
     // Función para eliminar el juego
     const eliminarJuego = async () => {
@@ -71,7 +69,7 @@ function GamePageEmpresa() {
     if (!juego) {
         return null; // Si no hay datos de juego, no renderizamos nada
     }
-
+    console.log(juego);
     return (
         <>
             <BarraNavegacionEmpresa />
@@ -82,9 +80,6 @@ function GamePageEmpresa() {
 
                 <div className="botonesAccion">
                     <Link className="modificar-boton" to={`/editGames/${id}`}>Modificar</Link>
-                    <button onClick={cambiarTextoBoton} className="pausar-boton">
-                        {textoPausarPublicacion}
-                    </button>
                     <button onClick={eliminarJuego} className="eliminar-boton">Eliminar</button>
                 </div>
 

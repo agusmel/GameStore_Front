@@ -1,0 +1,22 @@
+.recuperar-contraseña{
+display: flex;
+text-align: center;
+flex-direction: column;
+justify-content: center; 
+padding: 4%;
+background-color:transparent;
+font-size: 30px;
+height: 100px; 
+}
+
+.enviar-email{
+    background-color: #007bff; 
+    border-radius: 5px; 
+    padding: 10px 10px; 
+    font-size: 16px; 
+    position: relative;
+    bottom: 0;
+    margin-top: 15px; 
+    cursor: pointer;
+}
+

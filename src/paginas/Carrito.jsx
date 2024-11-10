@@ -131,7 +131,7 @@ const Carrito = () => {
             <div className="total">
                 <h3>Total de productos en el carrito: ${total}</h3>
             </div>
-            <button className="confirm-btn" disabled={total === "0.00"}><Link to="/pagos">Confirmar</Link></button>  
+            <button className="confirm-btn" ><Link to="/pagos">Confirmar</Link></button>  
         </>
     );
 };
