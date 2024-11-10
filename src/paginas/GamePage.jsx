@@ -1,10 +1,8 @@
 import './GamePage.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import BarraNavegacion from '../componentes/barraNavegacion.jsx';
-import { useParams } from 'react-router-dom';
 
-// Cambiar id por nombre
 const fetchGameDetails = async (id) => {
     const response = await fetch(`http://localhost:3000/api/videojuegos/juego/${id}`, {
         method: "GET",
@@ -15,24 +13,59 @@ const fetchGameDetails = async (id) => {
     if (!response.ok) {
         throw new Error('Error al obtener los detalles del juego');
     }
+
     return response.json(); 
 };
 
+const addToWishList = async (id) => {
+    if (!id) {
+        throw new Error('ID del juego no válido');
+    }
+
+    const response = await fetch(`http://localhost:3000/api/wishlist/add/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+    });
+
+    if (!response.ok) {
+        const errorDetails = await response.json();
+        throw new Error(`Error al agregar el juego a la lista de deseados: ${errorDetails.message || 'Desconocido'}`);
+    }
+
+    return response.json();
+};
+
+const addToCart = async (id) => {
+    if (!id) {
+        throw new Error('ID del juego no válido');
+    }
+
+    const response = await fetch(`http://localhost:3000/api/carrito/add/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+    });
+
+    if (!response.ok) {
+        throw new Error('Error al agregar el juego al carrito');
+    }
+
+    return response.json();
+};
+
 function GamePage() {
-    const { id } = useParams();  // Usamos 'nombre' en lugar de 'id'
+    const { id } = useParams();
     const [juego, setJuego] = useState(null);
-    
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [soSeleccionado, setSoSeleccionado] = useState('windows'); // State for SO selection
+    const [soSeleccionado, setSoSeleccionado] = useState('windows');
 
     useEffect(() => {
         const getGameDetails = async () => {
             try {
-                console.log(id); // Verificamos que 'nombre' esté correctamente extraído
-                const gameData = await fetchGameDetails(id);  // Usamos 'nombre' aquí
+                const gameData = await fetchGameDetails(id);
                 setJuego(gameData[0]);
-                console.log(gameData);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -41,18 +74,36 @@ function GamePage() {
         };
 
         getGameDetails();
-    }, [id]);  // Usamos 'nombre' como dependencia
+    }, [id]);
 
     if (loading) return <div>Cargando...</div>;
     if (error) return <div>Error: {error}</div>;
 
+    const handleAddToWishList = async () => {
+        try {
+            await addToWishList(id);
+            alert('Juego añadido a la lista de deseados');
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
+    const handleAddToCart = async () => {
+        try {
+            await addToCart(id);
+            alert('Juego añadido al carrito');
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
     const obtenerClaseCalificacion = (calificacion) => {
         if (calificacion === 1 || calificacion === 2) {
-            return 'calificacion-baja'; // Rojo
+            return 'calificacion-baja';
         } else if (calificacion === 3) {
-            return 'calificacion-media'; // Amarillo
+            return 'calificacion-media';
         } else {
-            return 'calificacion-alta'; // Verde
+            return 'calificacion-alta';
         }
     };
 
@@ -72,28 +123,26 @@ function GamePage() {
                     />
                     <div className="informacion">
                         <h2>Desarrollador</h2>
-                        <p>nombre: {juego.desarrollador} </p>
-                        <p className='descripcion'>descripcion: {juego.descripcion_desarrollador} </p>
-                        <p className='logo-desarrollador' style={{ fontSize: '1.5rem'}}>logo</p>
+                        <p>Nombre: {juego.desarrollador}</p>
+                        <p className='descripcion'>Descripción: {juego.descripcion_desarrollador}</p>
                         <img 
-                            className="developer-logo"                           
-
+                            className="developer-logo"
                             src={juego.logo_desarrolladora}
                             alt="Logo del desarrollador"
                         />
-                        <p className='precio'>precio: {juego.precio}</p>
+                        <p className="precio">Precio: {juego.precio}</p>
                         <div className="botones">
-                            <button className="agregar-deseados">Añadir a deseados</button>
-                            <button className="agregar-carrito">Agregar al carrito</button>                    
-                        </div>  
-                    </div>                  
+                            <button className="agregar-deseados" onClick={handleAddToWishList}>Añadir a deseados</button>
+                            <button className="agregar-carrito" onClick={handleAddToCart}>Agregar al carrito</button>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="bloque-inf">
                     <div className="izq">
                         <div className="game-details">
                             <div className="acerca-juego">
-                                <h2>Descripcion del juego</h2>
+                                <h2>Descripción del juego</h2>
                                 <p>{juego.descripcion_juego}</p>
                             </div>
                         </div>
@@ -137,7 +186,7 @@ function GamePage() {
                             <div className="opiniones">
                                 {juego.opiniones?.map((opinion, index) => (
                                     <div key={index} className="opinion">
-                                        <p className={obtenerClaseCalificacion(opinion.calificacion)}> Calificación: {opinion.calificacion}</p>
+                                        <p className={obtenerClaseCalificacion(opinion.calificacion)}>Calificación: {opinion.calificacion}</p>
                                         <p>{opinion.texto}</p>
                                     </div>
                                 ))}
@@ -150,6 +199,7 @@ function GamePage() {
                             <div className="etiquetas">
                                 <h2>Etiquetas</h2>
                                 <ul>
+                                
                                 {juego.etiquetas?.map((etiqueta, index) => (
                                     <li key={index}>{etiqueta}</li>
                                 ))}
