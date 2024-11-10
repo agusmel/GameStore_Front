@@ -250,21 +250,14 @@
     margin-bottom: 10px; 
 }
 
-.idiomas table {
-    border-collapse: collapse;
- 
-}
-
-.idiomas th, .idiomas td {
-    padding: 10px;
+.idiomas li{
+    padding: 1% 1%;
+    background-color: #2f2f30;
+    border-radius: 3px;
     text-align: center;
-    width: 10%;
-}
-
-.idiomas table {
-    display: block;
-    width: 100%;
-    overflow-x: auto;
+    margin-bottom: 10px;
+    list-style: none; 
+    
 }
 
 .opiniones-container {

@@ -19,12 +19,17 @@ const EditGames = () => {
     etiquetas: '',
     caracteristicas: '',
     idiomas: '',
-    requisitos: '',
+    requisitos: {
+      windows: { minimos: {}, recomendados: {} },
+      linux: { minimos: {}, recomendados: {} },
+      mac: { minimos: {}, recomendados: {} },
+    },
     habilitado: true,
   });
   const [formError, setFormError] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
+  const [selectedOS, setSelectedOS] = useState("windows");
 
   useEffect(() => {
     const fetchGameData = async () => {
@@ -49,18 +54,10 @@ const EditGames = () => {
     e.preventDefault();
 
     const updatedGameData = {
-      nombre: gameData.nombre,
-      precio: parseFloat(gameData.precio),
-      desarrollador: gameData.desarrollador,
-      descripcion_desarrollador: gameData.descripcion_desarrollador,
-      descripcion_juego: gameData.descripcion_juego,
-      logo_desarrolladora: gameData.logo_desarrolladora,
-      imagen_chica: gameData.imagen_chica,
-      imagen_grande: gameData.imagen_grande,
+      ...gameData,
       etiquetas: gameData.etiquetas.split(',').map(tag => tag.trim()),
       caracteristicas: gameData.caracteristicas.split(',').map(caract => caract.trim()),
       idiomas: gameData.idiomas.split(',').map(lang => ({ idioma: lang.trim(), audio: true, interfaz: true, subtitulos: true })),
-      requisitos: gameData.requisitos,
       habilitado: gameData.habilitado ? 1 : 0,
     };
 
@@ -84,6 +81,26 @@ const EditGames = () => {
       ...gameData,
       [name]: type === 'checkbox' ? checked : value,
     });
+  };
+
+  const handleOSChange = (os) => {
+    setSelectedOS(os);
+  };
+
+  const handleRequisitoChange = (level, field, value) => {
+    setGameData((prevData) => ({
+      ...prevData,
+      requisitos: {
+        ...prevData.requisitos,
+        [selectedOS]: {
+          ...prevData.requisitos[selectedOS],
+          [level]: {
+            ...prevData.requisitos[selectedOS][level],
+            [field]: value,
+          },
+        },
+      },
+    }));
   };
 
   return (
@@ -142,7 +159,6 @@ const EditGames = () => {
             className="form-textarea"
           />
         </div>
-
         <div className="form-group">
           <label>Logo Desarrolladora:</label>
           <input
@@ -153,7 +169,6 @@ const EditGames = () => {
             className="form-input"
           />
         </div>
-
         <div className="form-group">
           <label>Imagen Pequeña:</label>
           <input
@@ -164,7 +179,6 @@ const EditGames = () => {
             className="form-input"
           />
         </div>
-
         <div className="form-group">
           <label>Imagen Grande:</label>
           <input
@@ -175,7 +189,6 @@ const EditGames = () => {
             className="form-input"
           />
         </div>
-
         <div className="form-group">
           <label>Etiquetas (separadas por comas):</label>
           <input
@@ -209,14 +222,31 @@ const EditGames = () => {
           />
         </div>
 
-        <div className="form-group">
-          <label>Requisitos:</label>
-          <textarea
-            name="requisitos"
-            value={gameData.requisitos}
-            onChange={handleChange}
-            className="form-textarea"
-          />
+   
+
+        <div className="os-selector">
+          <button type="button" className={selectedOS === "windows" ? "active" : ""} onClick={() => handleOSChange("windows")}>Windows</button>
+          <button type="button" className={selectedOS === "linux" ? "active" : ""} onClick={() => handleOSChange("linux")}>Linux</button>
+          <button type="button" className={selectedOS === "mac" ? "active" : ""} onClick={() => handleOSChange("mac")}>MacOS</button>
+        </div>
+
+        <div className="requerimientos">
+          <div className="requerimiento">
+            <h4>Requerimientos mínimos del sistema - {selectedOS}</h4>
+            <input placeholder="OS:" value={gameData.requisitos[selectedOS]?.minimos.os || ""} onChange={(e) => handleRequisitoChange("minimos", "os", e.target.value)} />
+            <input placeholder="Procesador:" value={gameData.requisitos[selectedOS]?.minimos.procesador || ""} onChange={(e) => handleRequisitoChange("minimos", "procesador", e.target.value)} />
+            <input placeholder="Memoria:" value={gameData.requisitos[selectedOS]?.minimos.memoria || ""} onChange={(e) => handleRequisitoChange("minimos", "memoria", e.target.value)} />
+            <input placeholder="Gráficos:" value={gameData.requisitos[selectedOS]?.minimos.graficos || ""} onChange={(e) => handleRequisitoChange("minimos", "graficos", e.target.value)} />
+            <input placeholder="Almacenamiento:" value={gameData.requisitos[selectedOS]?.minimos.almacenamiento || ""} onChange={(e) => handleRequisitoChange("minimos", "almacenamiento", e.target.value)} />
+          </div>
+          <div className="requerimiento">
+            <h4>Requerimientos recomendados del sistema - {selectedOS}</h4>
+            <input placeholder="OS:" value={gameData.requisitos[selectedOS]?.recomendados.os || ""} onChange={(e) => handleRequisitoChange("recomendados", "os", e.target.value)} />
+            <input placeholder="Procesador:" value={gameData.requisitos[selectedOS]?.recomendados.procesador || ""} onChange={(e) => handleRequisitoChange("recomendados", "procesador", e.target.value)} />
+            <input placeholder="Memoria:" value={gameData.requisitos[selectedOS]?.recomendados.memoria || ""} onChange={(e) => handleRequisitoChange("recomendados", "memoria", e.target.value)} />
+            <input placeholder="Gráficos:" value={gameData.requisitos[selectedOS]?.recomendados.graficos || ""} onChange={(e) => handleRequisitoChange("recomendados", "graficos", e.target.value)} />
+            <input placeholder="Almacenamiento:" value={gameData.requisitos[selectedOS]?.recomendados.almacenamiento || ""} onChange={(e) => handleRequisitoChange("recomendados", "almacenamiento", e.target.value)} />
+          </div>
         </div>
 
         <div className="form-group">

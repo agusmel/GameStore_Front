@@ -192,6 +192,7 @@ function GamePage() {
                                         <div key={index} className="opinion">
                                             {opinion.puntaje && (
                                                 <p className={obtenerClaseCalificacion(opinion.puntaje)}>
+                                                    
                                                     Calificación: {opinion.puntaje}
                                                 </p>
                                             )}
@@ -224,26 +225,11 @@ function GamePage() {
 
                             <div className="idiomas">
                                 <h2>Idiomas</h2>
-                                <table>
-                                <thead>
-                                    <tr>
-                                    <th>Idioma</th>
-                                    <th>Interfaz</th>
-                                    <th>Subtítulos</th>
-                                    <th>Audio</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {juego.idiomas?.map((idioma, index) => (
-                                    <tr key={index}>
-                                        <td>{idioma.idioma}</td>
-                                        <td>{idioma.interfaz ? '✔️' : ''}</td>
-                                        <td>{idioma.subtitulos ? '✔️' : ''}</td>
-                                        <td>{idioma.audio ? '✔️' : ''}</td>
-                                    </tr>
-                                    ))}
-                                </tbody>
-                                </table>
+                                <ul>
+                                {juego.idiomas?.map((idioma, index) => (
+                                    <li key={index}>{idioma.idioma}</li>
+                                ))}
+                                </ul>
                             </div>
                         </div>
                     </div>                 
