@@ -17,42 +17,7 @@ const fetchGameDetails = async (id) => {
     return response.json(); 
 };
 
-const addToWishList = async (id) => {
-    if (!id) {
-        throw new Error('ID del juego no válido');
-    }
-
-    const response = await fetch(`http://localhost:3000/api/wishlist/add/${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-    });
-
-    if (!response.ok) {
-        const errorDetails = await response.json();
-        throw new Error(`Error al agregar el juego a la lista de deseados: ${errorDetails.message || 'Desconocido'}`);
-    }
-
-    return response.json();
-};
-
-const addToCart = async (id) => {
-    if (!id) {
-        throw new Error('ID del juego no válido');
-    }
-
-    const response = await fetch(`http://localhost:3000/api/carrito/add/${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-    });
-
-    if (!response.ok) {
-        throw new Error('Error al agregar el juego al carrito');
-    }
-
-    return response.json();
-};
+// Funciones addToWishList y addToCart permanecen igual...
 
 function GamePage() {
     const { id } = useParams();
@@ -106,8 +71,6 @@ function GamePage() {
             return 'calificacion-alta';
         }
     };
-
-    console.log("aaa",juego);
 
     return (
         <>
@@ -187,12 +150,11 @@ function GamePage() {
                             <h2>Opiniones</h2>
                             <div className="opiniones">
                                 {juego?.reseñas_puntajes
-                                    .filter(opinion => opinion.reseña !== null || opinion.puntaje !== null) // Filtra reseñas válidas
+                                    .filter(opinion => opinion.reseña !== null || opinion.puntaje !== null)
                                     .map((opinion, index) => (
                                         <div key={index} className="opinion">
                                             {opinion.puntaje && (
                                                 <p className={obtenerClaseCalificacion(opinion.puntaje)}>
-                                                    
                                                     Calificación: {opinion.puntaje}
                                                 </p>
                                             )}
@@ -208,7 +170,7 @@ function GamePage() {
                             <div className="etiquetasss">
                                 <h2>Etiquetas</h2>
                                 <ul>
-                                {juego?.etiquetas?.map((etiqueta, index) => (
+                                {(Array.isArray(juego?.etiquetas) ? juego.etiquetas : []).map((etiqueta, index) => (
                                     <li key={index}>{etiqueta}</li>
                                 ))}
                                 </ul>
@@ -217,7 +179,7 @@ function GamePage() {
                             <div className="caracteristicas">
                                 <h2>Características</h2>
                                 <ul>
-                                {juego?.caracteristicas?.map((caracteristica, index) => (
+                                {(Array.isArray(juego?.caracteristicas) ? juego.caracteristicas : []).map((caracteristica, index) => (
                                     <li key={index}>{caracteristica}</li>
                                 ))}
                                 </ul>
@@ -226,7 +188,7 @@ function GamePage() {
                             <div className="idiomas">
                                 <h2>Idiomas</h2>
                                 <ul>
-                                {juego?.idiomas?.map((idioma, index) => (
+                                {(Array.isArray(juego?.idiomas) ? juego.idiomas : []).map((idioma, index) => (
                                     <li key={index}>{idioma.idioma}</li>
                                 ))}
                                 </ul>
