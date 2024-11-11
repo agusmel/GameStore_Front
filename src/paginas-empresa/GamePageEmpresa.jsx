@@ -69,6 +69,8 @@ function GamePageEmpresa() {
     if (!juego) {
         return null; // Si no hay datos de juego, no renderizamos nada
     }
+    const tasaConversion = juego.visitas > 0 ? ((juego.compras / juego.visitas) * 100).toFixed(2) : 'N/A';
+
     console.log(juego);
     return (
         <>
@@ -106,7 +108,7 @@ function GamePageEmpresa() {
                     <div className="datosJuego">
                         <div className="field-group">
                             <label className="label">Cantidad de vistas</label>
-                            <div className="static-field">{juego.vistas}</div>
+                            <div className="static-field">{juego.visitas}</div>
                         </div>
 
                         <div className="field-group">
@@ -121,7 +123,7 @@ function GamePageEmpresa() {
 
                         <div className="field-group">
                             <label className="label">Tasa de conversión</label>
-                            <div className="static-field">{juego.tasa_conversion}</div>
+                            <div className="static-field">{tasaConversion}</div>
                         </div>
                     </div>
                 </div>

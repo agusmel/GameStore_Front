@@ -38,7 +38,7 @@ const routes=[
     element: <Catalogo/>
   },
   {
-    path: "/game/:id" , // Ruta para la página de detalles del juego
+    path: "/game/:id" , 
     element: <GamePage/>
   },
   {
@@ -82,23 +82,23 @@ const routes=[
   element: <CatalogoEmpresa/>,
 },
 {
-  path: "/gameDetail/:id", // Ruta para la página de detalles del juego
+  path: "/gameDetail/:id", 
   element: <GamePageEmpresa/>
 },
 {
-  path: "/perfilEmpresa", // Ruta para la página de detalles del juego
+  path: "/perfilEmpresa", 
   element: <PerfilEmpresa/>
 },
 {
-  path: "/LoadGame", // Ruta para la página de detalles del juego
+  path: "/LoadGame", 
   element: <LoadGame/>
 },
 {
-  path: "/editGames/:id", // Ruta para la página de detalles del juego
+  path: "/editGames/:id", 
   element: <EditGames/>
 },
 {
-  path: "/recuperarContraseña", // Ruta para la página de detalles del juego
+  path: "/recuperarContraseña", 
   element: <RecuperarContraseña/>
 },
 {

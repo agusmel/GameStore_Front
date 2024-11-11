@@ -115,7 +115,7 @@ function Pagos() {
                 }
             } else {
                 const errorData = await response.json();
-                setErrorMessage('Error al insertar el carrito: ' + (errorData.error || 'Error desconocido'));
+                setErrorMessage('Error al insertar el carrito: ' + (errorData.error || 'ya cuentas con este juego'));
             }
         } catch (error) {
             console.error('Error en la solicitud:', error);

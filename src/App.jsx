@@ -18,12 +18,13 @@ import LoadGame from './paginas-empresa/LoadGame.jsx';
 import EditGames from './paginas-empresa/EditGames.jsx';
 import RecuperarContraseñas from './paginas/RecuperarContraseña.jsx';
 import NuevaComtraseña from './paginas/NuevaComtraseña.jsx';
+import { Login } from '@mui/icons-material';
 function App() {
  
 
   return (
     <>
-      <LoginUsuario/>
+      <LoginEmpresa/>
     </>
   );
 }

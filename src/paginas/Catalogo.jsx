@@ -73,14 +73,14 @@ function Catalogo() {
         juego.caracteristicas.includes(categorias)
       );
 
-  const juegosFiltradosPorIdioma = juegosFiltradosPorCaracteristica.length > 0
-    ? juegosFiltradosPorCaracteristica
-    : juegos.filter((juego) => 
-        juego.habilitado === 1 && 
-        juego.idiomas && 
-        juego.idiomas.some((idioma) => idioma.idioma === categorias)
-      );
-
+      const juegosFiltradosPorIdioma = juegosFiltradosPorCaracteristica.length > 0
+      ? juegosFiltradosPorCaracteristica
+      : juegos.filter((juego) => 
+          juego.habilitado === 1 && 
+          Array.isArray(juego.idiomas) && // Verifica si juego.idiomas es un array
+          juego.idiomas.some((idioma) => idioma.idioma === categorias)
+        );
+    
   const juegosFiltrados = juegosFiltradosPorIdioma.length > 0
     ? juegosFiltradosPorIdioma
     : juegos.filter((juego) => 
@@ -117,9 +117,10 @@ function Catalogo() {
       });
     }
   }, [currentIndex]);
-
+  console.log(juegos);
   return (
     <>
+    
       <BarraNavegacion />
       <div className='container'>
         <div className='titulo-grande'>

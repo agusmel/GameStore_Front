@@ -107,32 +107,32 @@ function GamePage() {
         }
     };
 
-    console.log(juego);
+    console.log("aaa",juego);
 
     return (
         <>
             <BarraNavegacion />
             <div className="game-page-container">
                 <div className="titulo">
-                    <h1>{juego.nombre}</h1> 
+                    <h1>{juego?.nombre}</h1> 
                 </div>
 
                 <div className="contenedor-sup">
                     <img 
                         className="imagen-juego"
-                        src={juego.imagen_grande}
+                        src={juego?.imagen_grande}
                         alt="Portada del juego"
                     />
                     <div className="informacion">
                         <h2>Desarrollador</h2>
-                        <p>Nombre: {juego.desarrollador}</p>
-                        <p className='descripcion'>Descripción: {juego.descripcion_desarrollador}</p>
+                        <p>Nombre: {juego?.desarrollador}</p>
+                        <p className='descripcion'>Descripción: {juego?.descripcion_desarrollador}</p>
                         <img 
                             className="developer-logo"
-                            src={juego.logo_desarrolladora}
+                            src={juego?.logo_desarrolladora}
                             alt="Logo del desarrollador"
                         />
-                        <p className="precio">Precio: {juego.precio}</p>
+                        <p className="precio">Precio: {juego?.precio}</p>
                         <div className="botones">
                             <button className="agregar-deseados" onClick={handleAddToWishList}>Añadir a deseados</button>
                             <button className="agregar-carrito" onClick={handleAddToCart}>Agregar al carrito</button>
@@ -145,7 +145,7 @@ function GamePage() {
                         <div className="game-details">
                             <div className="acerca-juego">
                                 <h2>Descripción del juego</h2>
-                                <p>{juego.descripcion_juego}</p>
+                                <p>{juego?.descripcion_juego}</p>
                             </div>
                         </div>
                         <div className="requisitos">
@@ -162,23 +162,23 @@ function GamePage() {
                                 <div className="minimos">
                                     <h3>Mínimo</h3>
                                     <ul>
-                                        <li><strong>OS:</strong> {juego.requisitos?.[soSeleccionado]?.minimos?.os}</li>
-                                        <li><strong>Procesador:</strong> {juego.requisitos?.[soSeleccionado]?.minimos?.procesador}</li>
-                                        <li><strong>Memoria:</strong> {juego.requisitos?.[soSeleccionado]?.minimos?.memoria}</li>
-                                        <li><strong>Gráficos:</strong> {juego.requisitos?.[soSeleccionado]?.minimos?.graficos}</li>
-                                        <li><strong>DirectX:</strong> {juego.requisitos?.[soSeleccionado]?.minimos?.directX}</li>
-                                        <li><strong>Almacenamiento:</strong> {juego.requisitos?.[soSeleccionado]?.minimos?.almacenamiento}</li>
+                                        <li><strong>OS:</strong> {juego?.requisitos?.[soSeleccionado]?.minimos?.os}</li>
+                                        <li><strong>Procesador:</strong> {juego?.requisitos?.[soSeleccionado]?.minimos?.procesador}</li>
+                                        <li><strong>Memoria:</strong> {juego?.requisitos?.[soSeleccionado]?.minimos?.memoria}</li>
+                                        <li><strong>Gráficos:</strong> {juego?.requisitos?.[soSeleccionado]?.minimos?.graficos}</li>
+                                        <li><strong>DirectX:</strong> {juego?.requisitos?.[soSeleccionado]?.minimos?.directX}</li>
+                                        <li><strong>Almacenamiento:</strong> {juego?.requisitos?.[soSeleccionado]?.minimos?.almacenamiento}</li>
                                     </ul>
                                 </div>
                                 <div className="recomendados">
                                     <h3>Recomendado</h3>
                                     <ul>
-                                        <li><strong>OS:</strong> {juego.requisitos?.[soSeleccionado]?.recomendados?.os}</li>
-                                        <li><strong>Procesador:</strong> {juego.requisitos?.[soSeleccionado]?.recomendados?.procesador}</li>
-                                        <li><strong>Memoria:</strong> {juego.requisitos?.[soSeleccionado]?.recomendados?.memoria}</li>
-                                        <li><strong>Gráficos:</strong> {juego.requisitos?.[soSeleccionado]?.recomendados?.graficos}</li>
-                                        <li><strong>DirectX:</strong> {juego.requisitos?.[soSeleccionado]?.recomendados?.directX}</li>
-                                        <li><strong>Almacenamiento:</strong> {juego.requisitos?.[soSeleccionado]?.recomendados?.almacenamiento}</li>
+                                        <li><strong>OS:</strong> {juego?.requisitos?.[soSeleccionado]?.recomendados?.os}</li>
+                                        <li><strong>Procesador:</strong> {juego?.requisitos?.[soSeleccionado]?.recomendados?.procesador}</li>
+                                        <li><strong>Memoria:</strong> {juego?.requisitos?.[soSeleccionado]?.recomendados?.memoria}</li>
+                                        <li><strong>Gráficos:</strong> {juego?.requisitos?.[soSeleccionado]?.recomendados?.graficos}</li>
+                                        <li><strong>DirectX:</strong> {juego?.requisitos?.[soSeleccionado]?.recomendados?.directX}</li>
+                                        <li><strong>Almacenamiento:</strong> {juego?.requisitos?.[soSeleccionado]?.recomendados?.almacenamiento}</li>
                                     </ul>
                                 </div>
                             </div>                 
@@ -186,7 +186,7 @@ function GamePage() {
                         <div className="opiniones-container">
                             <h2>Opiniones</h2>
                             <div className="opiniones">
-                                {juego.reseñas_puntajes
+                                {juego?.reseñas_puntajes
                                     .filter(opinion => opinion.reseña !== null || opinion.puntaje !== null) // Filtra reseñas válidas
                                     .map((opinion, index) => (
                                         <div key={index} className="opinion">
@@ -208,7 +208,7 @@ function GamePage() {
                             <div className="etiquetasss">
                                 <h2>Etiquetas</h2>
                                 <ul>
-                                {juego.etiquetas?.map((etiqueta, index) => (
+                                {juego?.etiquetas?.map((etiqueta, index) => (
                                     <li key={index}>{etiqueta}</li>
                                 ))}
                                 </ul>
@@ -217,7 +217,7 @@ function GamePage() {
                             <div className="caracteristicas">
                                 <h2>Características</h2>
                                 <ul>
-                                {juego.caracteristicas?.map((caracteristica, index) => (
+                                {juego?.caracteristicas?.map((caracteristica, index) => (
                                     <li key={index}>{caracteristica}</li>
                                 ))}
                                 </ul>
@@ -226,7 +226,7 @@ function GamePage() {
                             <div className="idiomas">
                                 <h2>Idiomas</h2>
                                 <ul>
-                                {juego.idiomas?.map((idioma, index) => (
+                                {juego?.idiomas?.map((idioma, index) => (
                                     <li key={index}>{idioma.idioma}</li>
                                 ))}
                                 </ul>

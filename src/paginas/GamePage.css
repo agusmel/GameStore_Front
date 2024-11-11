@@ -105,7 +105,9 @@
     background-color: #1a1a1a;
     padding: 15px;
     border-radius: 8px;
-    
+    overflow-y: auto;  
+    max-height: 468px; 
+
   
 }
 
@@ -182,37 +184,37 @@
     
 }
 
-.etiquetasss{
+.etiquetasss {
     margin-top: 20px;  
     background-color: #1a1a1a;
     font-family: Arial;
     border-radius: 8px;
-    
-  
+    max-height: 100px; 
+    overflow-y: auto; 
 }
 
-
-.etiquetasss h2{
+.etiquetasss h2 {
     margin-bottom: 10px;
     padding: 10px;
 }
 
-.etiquetasss ul{
+.etiquetasss ul {
     display: flex;
+    flex-wrap: wrap; 
     gap: 4%;
     justify-content: center;
-    
+    padding: 0;
 }
 
-.etiquetasss li{
+.etiquetasss li {
     padding: 1% 1%;
     background-color: #2f2f30;
     border-radius: 3px;
     text-align: center;
     margin-bottom: 10px;
     list-style: none; 
-    
 }
+
 
 .caracteristicas{
     margin-top: 15px; 
