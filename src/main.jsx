@@ -102,7 +102,7 @@ const routes=[
   element: <RecuperarContraseña/>
 },
 {
-  path: "/nuevaComtraseña",
+  path: "/nuevaComtraseña/:email",
   element: <NuevaComtraseña/>,
 },
 
