@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { Link, useNavigate } from 'react-router-dom';
+import './EditGames.css';
 
-function FormularioJuego() {
-  // Estado para manejar los valores del formulario
-  const [formData, setFormData] = useState({
+const FormularioJuego = () => {
+  const [gameData, setGameData] = useState({
     nombre: '',
     descripcion_juego: '',
     precio: '',
+    sistema_operativo: '',
+    idioma: '',
+    numero_jugadores: '',
+    puntaje: '',
     desarrollador: '',
     descripcion_desarrollador: '',
     logo_desarrolladora: '',
@@ -15,44 +19,64 @@ function FormularioJuego() {
     etiquetas: '',
     caracteristicas: '',
     idiomas: '',
-    requisitos: '',
-    habilitado: false,
+    requisitos: {
+      windows: { minimos: {}, recomendados: {} },
+      linux: { minimos: {}, recomendados: {} },
+      mac: { minimos: {}, recomendados: {} },
+    },
+    habilitado: true,
   });
-
-  // Obtén la función navigate usando el hook useNavigate
+  const [selectedOS, setSelectedOS] = useState("windows");
   const navigate = useNavigate();
 
-  // Función para manejar los cambios en los campos del formulario
+  // Manejo de cambios en campos del formulario
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
+    setGameData({
+      ...gameData,
       [name]: type === 'checkbox' ? checked : value,
     });
   };
 
-  // Función para manejar el envío del formulario
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+  // Manejo de selección de sistema operativo
+  const handleOSChange = (os) => {
+    setSelectedOS(os);
+  };
 
-    // Enviar los datos al backend usando fetch
+  // Manejo de cambios en los requisitos según sistema operativo seleccionado
+  const handleRequisitoChange = (level, field, value) => {
+    setGameData((prevData) => ({
+      ...prevData,
+      requisitos: {
+        ...prevData.requisitos,
+        [selectedOS]: {
+          ...prevData.requisitos[selectedOS],
+          [level]: {
+            ...prevData.requisitos[selectedOS][level],
+            [field]: value,
+          },
+        },
+      },
+    }));
+  };
+
+  // Envío de formulario al backend
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const response = await fetch('http://localhost:3000/api/videojuegos/cargar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(gameData),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        // Si el juego se agregó correctamente
         alert('Juego agregado exitosamente');
-        navigate("/catalogoEmpresa"); // Redirige solo si la autenticación fue exitosa
+        navigate('/catalogoEmpresa');
       } else {
-        // Si hubo un error
+        const data = await response.json();
         alert(`Error: ${data.mensaje}`);
       }
     } catch (error) {
@@ -61,18 +85,19 @@ function FormularioJuego() {
     }
   };
 
+  console.log(gameData);
   return (
     <div className="edit-games-container">
       <h2 className="edit-title">Agregar Nuevo Juego</h2>
-      <form className="edit-form" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="edit-form">
         <div className="form-group">
           <label>Nombre:</label>
           <input
             type="text"
             name="nombre"
-            className="form-input"
-            value={formData.nombre}
+            value={gameData.nombre}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
 
@@ -80,9 +105,9 @@ function FormularioJuego() {
           <label>Descripción:</label>
           <textarea
             name="descripcion_juego"
-            className="form-textarea"
-            value={formData.descripcion_juego}
+            value={gameData.descripcion_juego}
             onChange={handleChange}
+            className="form-textarea"
           />
         </div>
 
@@ -91,9 +116,9 @@ function FormularioJuego() {
           <input
             type="number"
             name="precio"
-            className="form-input"
-            value={formData.precio}
+            value={gameData.precio}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
 
@@ -102,9 +127,9 @@ function FormularioJuego() {
           <input
             type="text"
             name="desarrollador"
-            className="form-input"
-            value={formData.desarrollador}
+            value={gameData.desarrollador}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
 
@@ -112,9 +137,9 @@ function FormularioJuego() {
           <label>Descripción del Desarrollador:</label>
           <textarea
             name="descripcion_desarrollador"
-            className="form-textarea"
-            value={formData.descripcion_desarrollador}
+            value={gameData.descripcion_desarrollador}
             onChange={handleChange}
+            className="form-textarea"
           />
         </div>
 
@@ -123,9 +148,9 @@ function FormularioJuego() {
           <input
             type="text"
             name="logo_desarrolladora"
-            className="form-input"
-            value={formData.logo_desarrolladora}
+            value={gameData.logo_desarrolladora}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
 
@@ -134,9 +159,9 @@ function FormularioJuego() {
           <input
             type="text"
             name="imagen_chica"
-            className="form-input"
-            value={formData.imagen_chica}
+            value={gameData.imagen_chica}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
 
@@ -145,9 +170,9 @@ function FormularioJuego() {
           <input
             type="text"
             name="imagen_grande"
-            className="form-input"
-            value={formData.imagen_grande}
+            value={gameData.imagen_grande}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
 
@@ -156,9 +181,9 @@ function FormularioJuego() {
           <input
             type="text"
             name="etiquetas"
-            className="form-input"
-            value={formData.etiquetas}
+            value={gameData.etiquetas}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
 
@@ -167,9 +192,9 @@ function FormularioJuego() {
           <input
             type="text"
             name="caracteristicas"
-            className="form-input"
-            value={formData.caracteristicas}
+            value={gameData.caracteristicas}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
 
@@ -178,20 +203,35 @@ function FormularioJuego() {
           <input
             type="text"
             name="idiomas"
-            className="form-input"
-            value={formData.idiomas}
+            value={gameData.idiomas}
             onChange={handleChange}
+            className="form-input"
           />
         </div>
 
-        <div className="form-group">
-          <label>Requisitos:</label>
-          <textarea
-            name="requisitos"
-            className="form-textarea"
-            value={formData.requisitos}
-            onChange={handleChange}
-          />
+        <div className="os-selector">
+          <button type="button" className={selectedOS === "windows" ? "active" : ""} onClick={() => handleOSChange("windows")}>Windows</button>
+          <button type="button" className={selectedOS === "linux" ? "active" : ""} onClick={() => handleOSChange("linux")}>Linux</button>
+          <button type="button" className={selectedOS === "mac" ? "active" : ""} onClick={() => handleOSChange("mac")}>MacOS</button>
+        </div>
+
+        <div className="requerimientos">
+          <div className="requerimiento">
+            <h4>Requerimientos mínimos del sistema - {selectedOS}</h4>
+            <input placeholder="OS:" value={gameData.requisitos[selectedOS]?.minimos.os || ""} onChange={(e) => handleRequisitoChange("minimos", "os", e.target.value)} />
+            <input placeholder="Procesador:" value={gameData.requisitos[selectedOS]?.minimos.procesador || ""} onChange={(e) => handleRequisitoChange("minimos", "procesador", e.target.value)} />
+            <input placeholder="Memoria:" value={gameData.requisitos[selectedOS]?.minimos.memoria || ""} onChange={(e) => handleRequisitoChange("minimos", "memoria", e.target.value)} />
+            <input placeholder="Gráficos:" value={gameData.requisitos[selectedOS]?.minimos.graficos || ""} onChange={(e) => handleRequisitoChange("minimos", "graficos", e.target.value)} />
+            <input placeholder="Almacenamiento:" value={gameData.requisitos[selectedOS]?.minimos.almacenamiento || ""} onChange={(e) => handleRequisitoChange("minimos", "almacenamiento", e.target.value)} />
+          </div>
+          <div className="requerimiento">
+            <h4>Requerimientos recomendados del sistema - {selectedOS}</h4>
+            <input placeholder="OS:" value={gameData.requisitos[selectedOS]?.recomendados.os || ""} onChange={(e) => handleRequisitoChange("recomendados", "os", e.target.value)} />
+            <input placeholder="Procesador:" value={gameData.requisitos[selectedOS]?.recomendados.procesador || ""} onChange={(e) => handleRequisitoChange("recomendados", "procesador", e.target.value)} />
+            <input placeholder="Memoria:" value={gameData.requisitos[selectedOS]?.recomendados.memoria || ""} onChange={(e) => handleRequisitoChange("recomendados", "memoria", e.target.value)} />
+            <input placeholder="Gráficos:" value={gameData.requisitos[selectedOS]?.recomendados.graficos || ""} onChange={(e) => handleRequisitoChange("recomendados", "graficos", e.target.value)} />
+            <input placeholder="Almacenamiento:" value={gameData.requisitos[selectedOS]?.recomendados.almacenamiento || ""} onChange={(e) => handleRequisitoChange("recomendados", "almacenamiento", e.target.value)} />
+          </div>
         </div>
 
         <div className="form-group">
@@ -199,9 +239,9 @@ function FormularioJuego() {
           <input
             type="checkbox"
             name="habilitado"
-            className="form-checkbox"
-            checked={formData.habilitado}
+            checked={gameData.habilitado}
             onChange={handleChange}
+            className="form-checkbox"
           />
         </div>
 
@@ -212,6 +252,6 @@ function FormularioJuego() {
       </form>
     </div>
   );
-}
+};
 
 export default FormularioJuego;
